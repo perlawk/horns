@@ -1,0 +1,8 @@
+Package: horns
+Version: 0.0.4
+Section: base
+Priority: optional
+Architecture: all
+Depends: libreadline6
+Maintainer: Andrew Pennebaker <root@yellosoft.us>
+Description: A minimal implementation of Lisp.

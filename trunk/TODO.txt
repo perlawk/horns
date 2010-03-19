@@ -1,0 +1,22 @@
+Core:
++Lambda
++Test on Mac/Win/Lin
+-Garbage collection
+
+Meta:
+-Code cleanup
++Speed test
+
+Optional:
++Implement bitwise operators
+-Give scripts information about their filenames
+-Implement load
+-Implement modules
+-Implement context
+-Implement sym2id, id2sym
+-Implement from-literal, to-literal
+-Implement ord, chr
+-Implement map
+-Implement range
+-Implement binary search/sort
+-Reimplement hashes using binary insertion sort/search

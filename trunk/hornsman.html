@@ -1,0 +1,1247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+<title>Horns Manual v0.0.4</title>
+
+<link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAD///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8BAACaDwAAvkUAAOI/AAD/B////wH///8B////Af///wEAAP8HAADiPwAAvkUAAJoP////Af///wEAAFI/AAB2xQAAmvsAAL7/AADi9QAA/xv///8B////Af///wH///8BAAD/GwAA4vUAAL7/AACa+wAAdsUAAFI/AABSxQAAdv8AAJr/AAC+/wAA4nH///8B////Af///wH///8B////Af///wEAAOJxAAC+/wAAmv8AAHb/AABSxQAAUu0AAHb/AACa/wAAvtUAAOID////Af///wH///8B////Af///wH///8BAADiAwAAvtUAAJr/AAB2/wAAUu0AAFLdAAB2/wAAmv8AAL6H////Af///wH///8B////Af///wH///8B////Af///wEAAL6HAACa/wAAdv8AAFLdAABSkQAAdv8AAJr/AAC+Rf///wH///8B////Af///wH///8B////Af///wH///8BAAC+RQAAmv8AAHb/AABSkQAAUi8AAHb9AACa/wAAvj////8B////Af///wH///8B////Af///wH///8B////AQAAvj8AAJr/AAB2/QAAUi////8BAAB2mQAAmv8AAL5T////Af///wH///8B////Af///wH///8B////Af///wEAAL5TAACa/wAAdpn///8B////AQAAdg0AAJrRAAC+p////wH///8B////Af///wH///8B////Af///wH///8BAAC+pwAAmtEAAHYN////Af///wH///8BAACaHwAAvt8AAOIr////Af///wH///8B////Af///wH///8BAADiKwAAvt8AAJof////Af///wH///8B////Af///wEAAL4XAADihQAA/wP///8B////Af///wH///8BAAD/AwAA4oUAAL4X////Af///wH///8B////Af///wH///8B////AQAA4gMAAP8J////Af///wH///8B////AQAA/wkAAOID////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//w%3D%3D" />
+
+<style type="text/css">
+body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #404040; }
+
+.inline-list { padding-left: 0; }
+.inline-list li { display: inline; }
+
+.center { text-align: center; }
+
+#title { padding-top: 4%; font-size: 800%; color: #c00; }
+
+.note, .warning, .alert { padding: 4px 4px 4px 4px; color: white; }
+.note a, .warning a, .alert a { color: black; }
+
+.note { background-color: #43c6db; }
+.warning { background-color: #e8a317; }
+.alert { background-color: #e42217; }
+
+.function { font-size: 120%; font-weight: bold; color: #dd0000; }
+
+.syntax { padding-top: 0.8em; font-weight: bold; }
+.syntax:before { content: "Syntax: "; }
+
+.example { font-size: 90%; font-weight: bold; }
+
+#end { padding-top: 2%; padding-bottom: 2%; font-size: 200%; }
+</style>
+
+</head>
+
+<body>
+
+<div class="center">
+	<div id="title">Horns</div>
+	<h2>For Mac, Windows, and Linux</h2>
+	<h1>Users Manual and Reference v0.0.4</h1>
+	<p>&copy; Andrew Pennebaker 2010 www.yellosoft.us. All rights reserved.<sup><a href="#license">1</a></sup></p>
+</div>
+
+<h1><a name="toc">Table of Contents</a></h1>
+<ol>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#news">News</a></li>
+	<li>
+		<a href="#get-it">Get it</a>
+		<ol>
+			<li><a href="#download">Download</a></li>
+			<li><a href="#required-tools">Required tools</a></li>
+			<li><a href="#compilation">Compilation</a></li>
+		</ol>
+	</li>
+	<li>
+		<a href="#run-it">Run it</a>
+		<ol>
+			<li><a href="#interactive-mode">Interactive mode</a></li>
+			<li><a href="#script-mode">Script mode</a></li>
+			<li><a href="#cli-args">Command Line Arguments</a></li>
+		</ol>
+	</li>
+	<li>
+		<a href="#learn-it">Learn it</a>
+		<ol>
+			<li>
+				<a href="#data-types">Data types</a>
+				<ol>
+					<li><a href="#booleans">Booleans</a></li>
+					<li><a href="#numbers">Numbers</a></li>
+					<li><a href="#strings">Strings</a></li>
+					<li><a href="#ids">Identifiers</a></li>
+					<li><a href="#symbols">Symbols</a></li>
+					<li><a href="#lists">Lists</a></li>
+					<li><a href="#lambdas">Lambdas</a></li>
+				</ol>
+			</li>
+			<li><a href="#predefined-variables">Predefined variables</a></li>
+			<li>
+				<a href="#function-list">Function list</a>
+			</li>
+		</ol>
+	</li>
+	<li>
+		<a href="#license">License</a>
+	</li>
+</ol>
+
+<h1><a name="intro">Introduction</a></h1>
+<div class="alert">Alert: Horns is very new and prone to segmentation faults. There is no garbage collection available. Do not use Horns in critical applications.</div>
+<p>Horns is a minimal Lisp implementation. Its primary goal is to manipulate <tt>lambda</tt> expressions in an interpretive environment.</p>
+<p>Horns is extremely regular and therefore (i) easy to parse, (ii) easy to debug, and (iii) easy to learn. The grammar is an <a href="http://en.wikipedia.org/wiki/LALR">LALR</a> based on S-expressions as specified in <tt>horns.y</tt>. This file is both the implementation and specification for the language. Unlike C++, Horns is portable, powerful, plain, plastic, precise, petite, polite and people-friendly, and pointer-free.</p>
+<p>Horns is fun. It acts as Polish calculator, shell script, and Lisp primer.</p>
+
+<h1><a name="news">News</a></h1>
+<p>Version 0.0.4 - Removed memory leaks. Removed redundant <tt>list</tt> function. Added bitwise operators.</p>
+<p>Version 0.0.3 - Portable version created. Added control functions. Added math functions. Added expression mode.</p>
+<p>Version 0.0.2 - Installers available for Mac, Windows, and Linux.</p>
+<p>Version 0.0.1 - Lambda works!</p>
+
+<h1><a name="get-it">Get it</a></h1>
+<h2><a name="download">Download</a></h2>
+<p>Binary and source downloads are available at <a href="http://code.google.com/p/horns">http://code.google.com/p/horns</a>.</p>
+<h2><a name="required-tools">Required Tools</a></h2>
+<div class="note">Note: If you use Lex/Yacc instead of Flex/Bison, you will need to modify <tt>makefile</tt> accordingly.</div>
+<p>If you plan to build from source, install the corresponding toolset:</p>
+<ul>
+	<li>
+		Mac
+		<ul>
+			<li><a href="http://developer.apple.com/technology/xcode.html">Xcode</a></li>
+		</ul>
+	</li>
+	<li>
+		Windows
+		<ul>
+			<li><a href="http://sourceforge.net/projects/mingw/files/">MinGw</a></li>
+			<li><a href="http://mingw.org/wiki/MSYS">MSYS</a></li>
+			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20flex/">flex</a></li>
+			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20bison/">bison</a></li>
+			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20regex/">regex</a></li>
+		</ul>
+	</li>
+	<li>
+		Linux
+		<ul>
+			<li>gcc</li>
+			<li>make</li>
+			<li>flex</li>
+			<li>bison</li>
+			<li>libreadline-dev</li>
+		</ul>
+	</li>
+</ul>
+<h2><a name="compilation">Compilation</a></h2>
+<div class="note">Note: Windows users must compile Horns in MSYS but run horns.exe in a normal Command Prompt.</div>
+<ol>
+	<li>Download source (see above).</li>
+	<li>Enter <tt>cd <i>horns-dir</i></tt>.</li>
+	<li>Enter <tt>make</tt>.</li>
+	<li>Horns will compile and run a self-test.</li>
+</ol>
+
+<h1><a name="run-it">Run it</a></h1>
+<h2><a name="interactive-mode">Interactive mode</a></h2>
+<ol>
+	<li>Open a terminal.</li>
+	<li>Enter <tt>horns</tt></li>
+</ol>
+<h2><a name="script-mode">Script mode</a></h2>
+<ul>
+	<li>Enter <tt>horns <i>somescript.lsp</i></tt></li>
+	<li>Or use shebangs and enter <tt>./<i>somescript.lsp</i></tt>.</li>
+</ul>
+<h2><a name="cli-args">Command Line Arguments</a></h2>
+<div class="note">Note: Surround -e expressions with quotes. E.g. <tt>horns -e "(+ 1 1)"</tt>.</div>
+<ul>
+	<li><tt>-e</tt> evaluate an expression and display the result</li>
+	<li><tt>-h</tt> for usage help</li>
+	<li><tt>-t</tt> to run a self-test</li>
+	<li><tt>-v</tt> to get version information</li>
+</ul>
+
+<h1><a name="learn-it">Learn it</a></h1>
+
+<h2><a name="data-types">Data types</a></h2>
+
+<h3><a name="booleans">Booleans</a></h3>
+<p><tt>true</tt> and <tt>nil</tt>.</p>
+<p>Anything not <tt>nil</tt> is considered <tt>true</tt>.</p>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#neq">!=</a></li>
+	<li><a href="#lt">&lt;</a></li>
+	<li><a href="#lte">&lt;=</a></li>
+	<li><a href="#eq">=</a></li>
+	<li><a href="#gt">&gt;</a></li>
+	<li><a href="#gte">&gt;=</a></li>
+	<li><a href="#and">and</a></li>
+	<li><a href="#is_atom">atom?</a></li>
+	<li><a href="#compare">compare</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#if">if</a></li>
+	<li><a href="#not">not</a></li>
+	<li><a href="#or">or</a></li>
+	<li><a href="#print">print</a></li>
+	<li><a href="#string">string</a></li>
+</ul>
+
+<h3><a name="numbers">Numbers</a></h3>
+<ul>
+	<li>decimals (<tt>100</tt>, <tt>-100</tt>)</li>
+	<li>hexadecimals (<tt>0xff</tt>, <tt>0XABC</tt>)</li>
+	<li>octals (<tt>033</tt>)</li>
+	<li>doubles (<tt>3.14</tt>, <tt>-.2</tt>, <tt>3.</tt>)</li>
+	<li>scientific (<tt>1e300</tt>, <tt>1e-300</tt>, <tt>1.2e5</tt>)</li>
+	<li>the constants <tt>pi</tt> and <tt>e</tt>.</li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#neq">!=</a></li>
+	<li><a href="#mod">%</a></li>
+	<li><a href="#band">&amp;</a></li>
+	<li><a href="#mul">*</a></li>
+	<li><a href="#pow">**</a></li>
+	<li><a href="#add">+</a></li>
+	<li><a href="#-">-</a></li>
+	<li><a href="#/">/</a></li>
+	<li><a href="#lt">&lt;</a></li>
+	<li><a href="#lte">&lt;=</a></li>
+	<li><a href="#eq">=</a></li>
+	<li><a href="#gt">&gt;</a></li>
+	<li><a href="#gte">&gt;=</a></li>
+	<li><a href="#bxor">&#94;</a></li>
+	<li><a href="#abs">abs</a></li>
+	<li><a href="#is_atom">atom?</a></li>
+	<li><a href="#ceil">ceil</a></li>
+	<li><a href="#compare">compare</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#cos">cos</a></li>
+	<li><a href="#floor">floor</a></li>
+	<li><a href="#ln">ln</a></li>
+	<li><a href="#log">log</a></li>
+	<li><a href="#number">number</a></li>
+	<li><a href="#print">print</a></li>
+	<li><a href="#sin">sin</a></li>
+	<li><a href="#sqrt">sqrt</a></li>
+	<li><a href="#string">string</a></li>
+	<li><a href="#time">time</a></li>
+	<li><a href="#bor">&#124;</a></li>
+	<li><a href="#bnot">&tilde;</a></li>
+</ul>
+
+<h3><a name="strings">Strings</a></h3>
+<p>Doubly-quoted sequences of characters and escape characters. There are no character objects, only strings of length one.</p>
+<ul>
+	<li><tt>"abc"</tt></li>
+	<li><tt>"Howdy!\n"</tt></li>
+	<li><tt>"C:\\Program Files\\"</tt></li>
+	<li><tt>"Less than 5%."</tt></li>
+	<li><tt>""</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#neq">!=</a></li>
+	<li><a href="#lt">&lt;</a></li>
+	<li><a href="#lte">&lt;=</a></li>
+	<li><a href="#eq">=</a></li>
+	<li><a href="#gt">&gt;</a></li>
+	<li><a href="#gte">&gt;=</a></li>
+	<li><a href="#append">append</a></li>
+	<li><a href="#at">at</a></li>
+	<li><a href="#is_atom">atom?</a></li>
+	<li><a href="#cat">cat</a></li>
+	<li><a href="#chomp">chomp</a></li>
+	<li><a href="#chop">chop</a></li>
+	<li><a href="#compare">compare</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#is_empty">empty?</a></li>
+	<li><a href="#env">env</a></li>
+	<li><a href="#first">first</a></li>
+	<li><a href="#is_in">in?</a></li>
+	<li><a href="#index">index</a></li>
+	<li><a href="#input">input</a></li>
+	<li><a href="#join">join</a></li>
+	<li><a href="#last">last</a></li>
+	<li><a href="#length">length</a></li>
+	<li><a href="#number">number</a></li>
+	<li><a href="#prepend">prepend</a></li>
+	<li><a href="#print">print</a></li>
+	<li><a href="#rest">rest</a></li>
+	<li><a href="#split">split</a></li>
+	<li><a href="#string">string</a></li>
+</ul>
+
+<h3><a name="ids">Identifiers</a></h3>
+<p>Anything matching the regular expression <tt>[+\-*/%?&lt;&gt;=!a-zA-Z_]+[+\-*/%?&lt;&gt;=!a-zA-Z_0-9]*</tt></p>
+<ul>
+	<li><tt>x</tt></li>
+	<li><tt>Bob</tt></li>
+	<li><tt>BobThe2nd</tt></li>
+	<li><tt>a-really-long-name</tt></li>
+	<li><tt>*readthesmallprint</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#for">for</a></li>
+	<li><a href="#lambda">lambda</a></li>
+	<li><a href="#while">while</a></li>
+</ul>
+
+<h3><a name="symbols">Symbols</a></h3>
+<p>Any identifier prefixed by an apostrophe.</p>
+<ul>
+	<li><tt>'x</tt></li>
+	<li><tt>'Bob</tt></li>
+	<li><tt>'BobThe2nd</tt></li>
+	<li><tt>'a-really-long-name</tt></li>
+	<li><tt>'*readthesmallprint</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#let">let</a></li>
+	<li><a href="#set">set</a></li>
+</ul>
+
+<h3><a name="lists">Lists</a></h3>
+<p>A sequence of objects surrounded by parentheses.</p>
+<ul>
+	<li><tt>()</tt></li>
+	<li><tt>(1 2 3)</tt></li>
+	<li><tt>("a" "b" "c")</tt></li>
+	<li><tt>(0 "zero" zero 'zero)</tt></li>
+	<li><tt>((1 2 3) (4 5 6) (7 8 9))</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#neq">!=</a></li>
+	<li><a href="#lt">&lt;</a></li>
+	<li><a href="#lte">&lt;=</a></li>
+	<li><a href="#eq">=</a></li>
+	<li><a href="#gt">&gt;</a></li>
+	<li><a href="#gte">&gt;=</a></li>
+	<li><a href="#append">append</a></li>
+	<li><a href="#at">at</a></li>
+	<li><a href="#is_atom">atom?</a></li>
+	<li><a href="#cat">cat</a></li>
+	<li><a href="#compare">compare</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#count">count</a></li>
+	<li><a href="#first">first</a></li>
+	<li><a href="#is_empty">empty?</a></li>
+	<li><a href="#is_in">in?</a></li>
+	<li><a href="#index">index</a></li>
+	<li><a href="#join">join</a></li>
+	<li><a href="#last">last</a></li>
+	<li><a href="#length">length</a></li>
+	<li><a href="#is_list">list?</a></li>
+	<li><a href="#pop">pop</a></li>
+	<li><a href="#prepend">prepend</a></li>
+	<li><a href="#print">print</a></li>
+	<li><a href="#push">push</a></li>
+	<li><a href="#rest">rest</a></li>
+	<li><a href="#split">split</a></li>
+	<li><a href="#string">string</a></li>
+</ul>
+<p>Lists can be extended to form the following types.</p>
+
+<h4>Hashes</h4>
+<p>Hashes are lists which contain two elements: a list of keys and a list of values.</p>
+<ul>
+	<li><tt>(hash ("a" "b") (1 2))</tt></li>
+	<li><tt>(hash ('alpha 'beta 'gamma) ("Hoo-" "Haa-" "HOO!"))</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#hash">hash</a></li>
+	<li><a href="#is_hash">hash?</a></li>
+	<li><a href="#hash-get">hash-get</a></li>
+	<li><a href="#hash-keys">hash-keys</a></li>
+	<li><a href="#hash-values">hash-values</a></li>
+</ul>
+
+<h3><a name="lambdas">Lambdas</a></h3>
+<p>A list of identifiers followed by some expressions.</p>
+<p>Naturally, functions are first-class data types. They can be created dynamically and passed as paramaters to other functions.</p>
+<ul>
+	<li><tt>(lambda (x) (* x x))</tt></li>
+	<li><tt>(lambda (x y) (+ x y))</tt></li>
+	<li><tt>(lambda (x y z) (/ x y z))</tt></li>
+	<li><tt>(lambda (x y) (append x y))</tt></li>
+	<li><tt>(lambda (x))</tt></li>
+</ul>
+<p>Associated functions:</p>
+<ul class="inline-list">
+	<li><a href="#neq">!=</a></li>
+	<li><a href="#lt">&lt;</a></li>
+	<li><a href="#lte">&lt;=</a></li>
+	<li><a href="#eq">=</a></li>
+	<li><a href="#gt">&gt;</a></li>
+	<li><a href="#gte">&gt;=</a></li>
+	<li><a href="#is_atom">atom?</a></li>
+	<li><a href="#compare">compare</a></li>
+	<li><a href="#copy">copy</a></li>
+	<li><a href="#def">def</a></li>
+	<li><a href="#print">print</a></li>
+	<li><a href="#string">string</a></li>
+</ul>
+
+<h2><a name="predefined-variables">Predefined variables</a></h2>
+<pre>pi => 3.14159
+
+e => 2.71828
+
+VERSION => "0.0.2"
+
+ARGV is the list of command line arguments given to a script.</pre>
+
+<h2><a name="function-list">Function List</a></h2>
+<p>Herein lie the functions of Horns sorted alphanumerically.</p>
+
+<h3><a name="destructive">Destructive functions</a></h3>
+<div class="warning">Warning: The following functions may alter their parameters or data elsewhere in a program.</div>
+<ul class="inline-list">
+	<li><a href="#pop">pop</a></li>
+	<li><a href="#push">push</a></li>
+	<li><a href="#set">set</a></li>
+</ul>
+
+<div class="function"><a name="neq">!=</a></div>
+<div class="syntax">(!= obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If not 0, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#eq">=</a>.</p>
+<div class="example">Examples:</div>
+<pre>(!= nil true) => true
+
+(!= 4 4) => nil
+
+(!= 4 5) => true</pre>
+
+<div class="function"><a name="mod">%</a></div>
+<div class="syntax">(% num-1 num-2 num-3 ...)</div>
+<p>Returns the modulus of several numbers. If num-2 ... num-n contains 0, an error occurs and % returns <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(% 4 5) => 4
+
+(% 3 3) => 0
+
+(% 1 0) => nil</pre>
+
+<div class="function"><a name="band">&amp;</a></div>
+<div class="syntax">(&amp; num-1 num-2 num-3 ...)</div>
+<p>Returns the bitwise-and of several numbers.</p>
+<p>Complement of <a href="#bxor">&#94;</a>, <a href="#bor">&#124;</a>, and <a href="#bnot">&tilde;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&amp; 4 6) => 4
+
+(&amp; 1 1 1 1 1 1 1 1 1 1) => 1
+
+(&amp; 1 1 1 1 1 1 1 1 1 0) => 0</pre>
+
+<div class="function"><a name="mul">*</a></div>
+<div class="syntax">(* num-1 num-2 num-3 ...)</div>
+<p>Returns the product of several numbers.</p>
+<p>Complement of <a href="#div">/</a>.</p>
+<div class="example">Examples:</div>
+<pre>(* 1 10) => 10
+
+(* 2 2) => 4
+
+(* 0 0) => 0</pre>
+
+<div class="function"><a name="pow">**</a></div>
+<div class="syntax">(** num-1 num-2 num-3 ...)</div>
+<p>Returns the power of several numbers.</p>
+<div class="example">Examples:</div>
+<pre>(** 2 3) => 8
+
+(** 2 3 2) => 64</pre>
+
+<div class="function"><a name="add">+</a></div>
+<div class="syntax">(+ num-1 num-2 num-3 ...)</div>
+<p>Returns the sum of several numbers.</p>
+<p>Complement of <a href="#sub">-</a>.</p>
+<div class="example">Examples:</div>
+<pre>(+ 1 10) => 11
+
+(+ 2 2) => 4
+
+(+ 0 0) => 0</pre>
+
+<div class="function"><a name="sub">-</a></div>
+<div class="syntax">(- num-1 num-2 num-3 ...)</div>
+<p>Returns the difference of several numbers.</p>
+<p>Complement of <a href="#add">+</a>.</p>
+<div class="example">Examples:</div>
+<pre>(- 1 10) => -9
+
+(- 2 2) => 0
+
+(- 0 0) => 0</pre>
+
+<div class="function"><a name="div">/</a></div>
+<div class="syntax">(/ num-1 num-2 num-3 ...)</div>
+<p>Returns the quotient of several numbers. If num-2 ... num-n contains 0, an error occurs and / returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#mul">*</a>.</p>
+<div class="example">Examples:</div>
+<pre>(/ 1 10) => 0.1
+
+(/ 2 2) => 1
+
+(/ 0 0) => nil</pre>
+
+<div class="function"><a name="lt">&lt;</a></div>
+<div class="syntax">(&lt; obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If -1, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#gt">&gt;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&lt; nil true) => true
+
+(&lt; 4 5) => true
+
+(&lt; 4 4) => nil</pre>
+
+<div class="function"><a name="lte">&lt;=</a></div>
+<div class="syntax">(&lt;= obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If -1 or 0, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#gte">&gt;=</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&lt;= nil true) => true
+
+(&lt;= 4 5) => true
+
+(&lt;= 4 4) => true</pre>
+
+<div class="function"><a name="eq">=</a></div>
+<div class="syntax">(= obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If 0, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#neq">!=</a>.</p>
+<div class="example">Examples:</div>
+<pre>(= nil true) => nil
+
+(= 4 4) => true
+
+(= 4 5) => nil</pre>
+
+<div class="function"><a name="gt">&gt;</a></div>
+<div class="syntax">(&gt; obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If 1, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#lt">&lt;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&gt; true nil) => true
+
+(&gt; 5 4) => true
+
+(&gt; 4 4) => nil</pre>
+
+<div class="function"><a name="gte">&gt;=</a></div>
+<div class="syntax">(&gt;= obj-1 obj-2)</div>
+<p>Tests objects using <a href="#compare">compare</a>. If 1 or 0, returns <tt>true</tt>. Otherwise returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#lte">&lt;=</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&gt;= true nil) => true
+
+(&gt;= 5 4) => true
+
+(&gt;= 4 5) => nil</pre>
+
+<div class="function"><a name="bxor">&#94;</a></div>
+<div class="syntax">(&#94; num-1 num-2 num-3)</div>
+<p>Returns the bitwise-xor of several numbers.</p>
+<p>Complement of <a href="#band">&amp;</a>, <a href="#bor">&#124;</a>, and <a href="#bnot">&tilde;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(&#94; 2 4) => 6
+
+(&#94; 2 6) => 4
+
+(&#94; 4 6 ) => 2
+
+(^ 0 1 0 1 0 1) => 1
+
+(^ 0 1 0 1 0 0) => 0</pre>
+
+<div class="function"><a name="abs">abs</a></div>
+<div class="syntax">(abs num-1)</div>
+<p>Returns the absolute value of num-1.</p>
+<div class="example">Examples:</div>
+<pre>(abs 1) => 1
+
+(abs -1) => 1</pre>
+
+<div class="function"><a name="and">and</a></div>
+<div class="syntax">(and obj-1 obj-2 obj-3 ...)</div>
+<p>Returns <tt>nil</tt> if any of the objects are <tt>nil</tt>. Otherwise, returns <tt>true</tt>.</p>
+<p>Complement of <a href="#or">or</a> and <a href="#not">not</a>.</p>
+<div class="example">Examples:</div>
+<pre>(and true true) => true
+
+(and true nil) => nil</pre>
+
+<div class="function"><a name="append">append</a></div>
+<div class="syntax">(append list-1 obj-2)</div>
+<div class="syntax">(append str-1 str-2)</div>
+<p>For lists, appends obj-2. For strings, concatenates str-1 and str-2. Returns the result.</p>
+<p>Complement of <a href="#prepend">prepend</a>.</p>
+<div class="example">Examples:</div>
+<pre>(append () 1) => (1)
+
+(append (1 2) 3) => (1 2 3)
+
+(append "ca" "t") => "cat"</pre>
+
+<div class="function"><a name="at">at</a></div>
+<div class="syntax">(at list-1 num-1)</div>
+<div class="syntax">(at str-1 num-1)</div>
+<p>If num-1 is negative, consider it a right-to-left index. Returns the element or string at num-1. If num-1 is out of bounds, return <tt>nil</tt>.</p>
+<p>Complement of <a href="#index">index</a>.</p>
+<div class="example">Examples:</div>
+<pre>(at (1 2 3) 0) => 1
+
+(at "cat" 0) => "c"</pre>
+
+<div class="function"><a name="is_atom">atom?</a></div>
+<div class="syntax">(atom? obj-1)</div>
+<p>If obj-1 is not a list, returns <tt>true</tt>. Otherwise, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#is_list">list?</a>.</p>
+<div class="example">Examples:</div>
+<pre>(atom? (1 2 3)) => nil
+
+(atom? 1) => true
+
+(atom? "abc") => true</pre>
+
+<div class="function"><a name="block">block</a></div>
+<div class="syntax">(block exp-1 [exp-2 [exp-3 ...]])</div>
+<p>Performs the given expressions and returns the result of the last one. <tt>block</tt> is useful when a function only accepts a single expression.</p>
+<div class="example">Examples:</div>
+<pre>(block (+ 1 2) (+ 3 4) (+ 4 5)) => 9
+
+(block) => nil</pre>
+
+<div class="function"><a name="cat">cat</a></div>
+<div class="syntax">(cat list-1 list-2)</div>
+<div class="syntax">(cat str-1 str-2)</div>
+<p>Concatenates lists or strings together.</p>
+<div class="example">Examples:</div>
+<pre>(cat (1) (2) (3)) => (1 2 3)
+
+(cat () (1 2) 3)) => (1 2 3)
+
+(cat (1 2) (3) ()) => (1 2 3)
+
+(cat "c" "a" "t") => "cat"
+
+(cat "" "c" at") => "cat"
+
+(cat "ca" "t" "") => "cat"</pre>
+
+<div class="function"><a name="ceil">ceil</a></div>
+<div class="syntax">(ceil num-1)</div>
+<p>Returns the ceil of num-1.</p>
+<div class="example">Examples:</div>
+<pre>(ceil 1) => 1
+
+(ceil 1.2) => 2</pre>
+
+<div class="function"><a name="chomp">chomp</a></div>
+<div class="syntax">(chomp str-1)</div>
+<p>Removes the last character of str-1 until it does not end with <tt>\n</tt> or <tt>\r</tt>. Returns the result.</p>
+<p>Complement of <a href="#chop">chop</a>.</p>
+<div class="example">Examples:</div>
+<pre>(chomp "Herb\n") => "Herb"
+
+(chomp "Herb\r") => "Herb"
+
+(chomp "Herb\r\n") => "Herb"
+
+(chomp "Herb") => "Herb"</pre>
+
+<div class="function"><a name="chop">chop</a></div>
+<div class="syntax">(chop str-1)</div>
+<p>Removes the last character of str-1.</p>
+<p>Complement of <a href="#chomp">chomp</a>.</p>
+<div class="example">Examples:</div>
+<pre>(chop "Herb\n") => "Herb"
+
+(chop "Herb\r") => "Herb"
+
+(chop "Herb\r\n") => "Herb\r"
+
+(chop "Herb") => "Her"</pre>
+
+<div class="function"><a name="compare">compare</a></div>
+<div class="syntax">(compare obj-1 obj-2)</div>
+<p>Returns -1, 0, or 1 if obj-1 is less than, equal to, or greater than obj-2.</p>
+<p>Comparison rules:</p>
+<ul>
+	<li>If the objects have different type, compare the types in this order: (nil, true, number, symbol, id, string, list, lambda).</li>
+	<li>If the objects are numbers, compare the difference.</li>
+	<li>If the objects are symbols or strings, compare them according to C's strcmp().</li>
+	<li>If the objects are ids, try to compare the values they refer to. If one id does not exist, it is considered less.</li>
+	<li>If the objects are lists, try to compare each element. A shorter list is considered less.</li>
+</ul>
+<div class="example">Examples:</div>
+<pre>(compare nil true) => -1
+
+(compare 4 4) => 0
+
+(compare 4 5) => 1</pre>
+
+<div class="function"><a name="copy">copy</a></div>
+<div class="syntax">(copy obj-1)</div>
+<p>Returns an object equivalent to obj-1. If the object is a deep structure such as a list, hash, or lambda, <tt>copy</tt> iterates through the object's children and copies them as well.</p>
+<div class="example">Examples:</div>
+<pre>(copy nil) => nil
+
+(copy (1 2 3)) => (1 2 3)
+
+(copy "cat") => "cat"</pre>
+
+<div class="function"><a name="cos">cos</a></div>
+<div class="syntax">(cos num-1)</div>
+<p>Returns the cosine of num-1.</p>
+<p>Complement of <a href="#sin">sin</a>.</p>
+<div class="example">Examples:</div>
+<pre>(cos 0) => 1
+
+(cos pi) => -1</pre>
+
+<div class="function"><a name="count">count</a></div>
+<div class="syntax">(count list-1 obj-1)</div>
+<p>Returns the number of occurences of obj-1 in list-1.</p>
+<div class="example">Examples:</div>
+<pre>(count (1 2 3) 1) => 1
+
+(count (1 1 1) 1) => 3
+
+(count (1 2 3) 4) => 0</pre>
+
+<div class="function"><a name="def">def</a></div>
+<div class="syntax">(def (name arg-1 arg-2 arg-3...) body)</div>
+<p>Creates and returns a function.</p>
+<div class="example">Examples:</div>
+<pre>(def (square x) (* x x)) => (lambda (x) (* x x))
+
+(square 2) => 4
+
+(square 4) => 16</pre>
+
+<div class="function"><a name="is_empty">empty?</a></div>
+<div class="syntax">(empty? list-1)</div>
+<div class="syntax">(empty? str-1)</div>
+<p>Returns <tt>true</tt> if list-1 has no elements or str-1 has no characters. Otherwise returns <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(empty? ()) => true
+
+(empty? "") => true
+
+(empty? (1)) => nil
+
+(empty? "a") => nil</pre>
+
+<div class="function"><a name="env">env</a><a href="#destructive">!</a></div>
+<div class="syntax">(env)</div>
+<div class="syntax">(env key)</div>
+<div class="syntax">(env key value)</div>
+<p>The first syntax returns a hash of the environment variables. The second syntax retrieves an environment variable. The third syntax sets an environment variable and returns the result.</p>
+<div class="example">Examples:</div>
+<pre>(env) => (("TERM_PROGRAM" "TERM" "SHELL" "COPYFILE_DISABLE" "TMPDIR"
+"Apple_PubSub_Socket_Render" "TERM_PROGRAM_VERSION" "OLDPWD" "USER"
+"COMMAND_MODE" "SSH_AUTH_SOCK" "__CF_USER_TEXT_ENCODING" "PATH" "PWD"
+"LANG" "SHLVL" "HOME" "LOGNAME" "DISPLAY" "_") ("Apple_Terminal" "xterm-color"
+"/bin/bash" "true" "/var/folders/N-/N-IxaaKuFae5ik1WKxV6wE+++TI/-Tmp-/"
+"/tmp/launch-KajeK7/Render" "272" "/Users/andrew/Desktop" "andrew" "unix2003"
+"/tmp/launch-VuLNOC/Listeners" "0x1F5:0:0"
+"/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
+"/Users/andrew/Desktop/src/horns" "en_US.UTF-8" "1" "/Users/andrew"
+"andrew" "/tmp/launch-V4bdu1/:0" "./horns"))
+
+(env "PATH") => "/opt/local/bin:/opt/local/sbin:/Users/andrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
+
+(env "COOLNAME" "Bobby") => "Bobby"
+
+(env "COOLNAME" "red=blue") => "red=blue"</pre>
+
+<div class="function"><a name="exec">exec</a></div>
+<div class="syntax">(exec command)</div>
+<p>Executes a system command string and returns the exit status.</p>
+<div class="example">Examples:</div>
+<pre>(exec "echo hi")
+hi
+=> 0</pre>
+
+<div class="function"><a name="exists">exists?</a></div>
+<div class="syntax">(exists? id-1)</div>
+<p>Returns <tt>true</tt> if id-1 has been set to a value. Otherwise returns <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(exists? a) => nil
+
+(set 'a 1)
+(exists? a) => true</pre>
+
+<div class="function"><a name="exit">exit</a></div>
+<div class="syntax">(exit [status-1])</div>
+<p>Causes Horns to exit. If status-1 is not provided, it defaults to 0.</p>
+<div class="example">Examples:</div>
+<pre>(exit)
+
+(exit 0)
+
+(exit 1)</pre>
+
+<div class="function"><a name="first">first</a></div>
+<div class="syntax">(first list-1)</div>
+<div class="syntax">(first str-1)</div>
+<p>Returns the first element of a list or the first character of a string. If the parameter is empty, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#last">last</a> and <a href="#rest">rest</a>.</p>
+<div class="example">Examples:</div>
+<pre>(first (1 2 3)) => 1
+
+(first "cat") => "c"
+
+(first ()) => nil
+
+(first "") => nil</pre>
+
+<div class="function"><a name="floor">floor</a></div>
+<div class="syntax">(floor num-1)</div>
+<p>Returns the floor of num-1.</p>
+<p>Complement of <a href="#ceil">ceil</a>.</p>
+<div class="example">Examples:</div>
+<pre>(floor 1) => 1
+
+(floor 1.2) => 1</pre>
+
+<div class="function"><a name="for">for</a></div>
+<div class="syntax">(for (id start end) body)</div>
+<p>Creates a new scrope in which the id is <a href="#set">set</a> to start. Evaluates the body of expressions until the id is equal to the end, then returns the last result.</p>
+<div class="example">Examples:</div>
+<pre>(for (i 0 5)
+	(print i))
+0
+1
+2
+3
+4
+=> 4</pre>
+
+<div class="function"><a name="hash">hash</a></div>
+<div class="syntax">(hash key-list val-list)</div>
+<p>Returns a list containing the given keys and values.</p>
+<div class="example">Examples:</div>
+<pre>(hash ("a" "b") (1 2)) => (("a" "b") (1 2))</pre>
+
+<div class="function"><a name="is_hash">hash?</a></div>
+<div class="syntax">(hash? obj-1)</div>
+<p>Returns <tt>true</tt> if obj-1 is a list containing the a list of keys and values. Otherwise, returns <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(hash? (("a" "b") (1 2)) => true
+
+(hash? ("a" "b")) => nil</pre>
+
+<div class="function"><a name="hash-get">hash-get</a></div>
+<div class="syntax">(hash-get hash-1 key-1)</div>
+<p>Returns the value associated with key-1 in hash-1. If there is no value, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#hash-set">hash-set</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'h (hash ("a" "b") (1 2)))
+(hash-get h "a") => 1
+(hash-get h "b") => 2</pre>
+
+<div class="function"><a name="hash-keys">hash-keys</a></div>
+<div class="syntax">(hash-keys hash-1)</div>
+<p>Returns the key list contained in hash-1.</p>
+<p>Complement of <a href="#hash-values">hash-values</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'h (hash ("a" "b") (1 2)))
+(hash-keys h) => ("a" "b")</pre>
+
+<div class="function"><a name="hash-set">hash-set</a></div>
+<div class="syntax">(hash-set hash-1 key-1 value-1)</div>
+<p>Returns the value associated with key-1 in hash-1. If there is no value, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#hash-set">hash-set</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'h (hash ("a" "b") (1 2)))
+(hash-get h "a") => 1
+(hash-get h "b") => 2</pre>
+
+<div class="function"><a name="hash-values">hash-values</a></div>
+<div class="syntax">(hash-values hash-1)</div>
+<p>Returns the value list contained in hash-1.</p>
+<p>Complement of <a href="#hash-keys">hash-keys</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'h (hash ("a" "b") (1 2)))
+(hash-values h) => (1 2)</pre>
+
+<div class="function"><a name="if">if</a></div>
+<div class="syntax">(if condition body-1 [body-2])</div>
+<p>Evaluates condition. If <tt>true</tt>, evaluates body-1. If <tt>nil</tt>, evaluates body-2 or <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(if (&lt; 1 2) 1 2) => 1
+
+(if (&lt; 1 2) 1) => 1
+
+(if (&gt; 1 2) 1 2) => 2
+
+(if (&gt; 1 2) 1) => nil</pre>
+
+<div class="function"><a name="is_in">in?</a></div>
+<div class="syntax">(in? list-1 obj-1)</div>
+<div class="syntax">(in? str-1 str-2)</div>
+<p>Returns <tt>true</tt> if the object is in the list or the substring is in the string. Otherwise, returns <tt>nil</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(in? (1 2 3) 1) => true
+
+(in? "cat" "c") => true
+
+(in? (1 2 3) 4) => nil
+
+(in? "cat" "D") => nil</pre>
+
+<div class="function"><a name="index">index</a></div>
+<div class="syntax">(index list-1 obj-1)</div>
+<div class="syntax">(index str-1 str-2)</div>
+<p>Locates the object in a list or the substring in a string and returns the location. If the object or substring is not found, returns -1.</p>
+<p>Complement of <a href="#at">at</a>.</p>
+<div class="example">Examples:</div>
+<pre>(index (1 2 3) 1) => 0
+
+(index "cat" "c") => 0
+
+(index (1 2 3) 4) => -1
+
+(index "cat" "dog") => -1</pre>
+
+<div class="function"><a name="input">input</a></div>
+<div class="syntax">(input [prompt])</div>
+<p>Displays a prompt, if provided. Then reads a line from <tt>stdin</tt>. Applies <a href="#chomp">chomp</a> to the line and returns the result.</p>
+<div class="example">Examples:</div>
+<pre>(set 'name (input "Name: "))
+Name: Bob
+=> "Bob"</pre>
+
+<div class="function"><a name="join">join</a></div>
+<div class="syntax">(join list-1 sep)</div>
+<p>Joins the strings in list-1 with the separator.</p>
+<p>Complement of <a href="#split">split</a>.</p>
+<div class="example">Examples:</div>
+<pre>(join ("a" "b" "c") " ") => "a b c"
+
+(join ("a" "b" "c") ", ") => "a, b, c"
+
+(join ("a" "b" "c") "") => "abc"
+
+(join ("a") " ") => "a"
+
+(join () " ") => ""</pre>
+
+<div class="function"><a name="lambda">lambda</a></div>
+<div class="syntax">(lambda id-list body)</div>
+<p>Returns the last element of a list or the last character of a string. If the parameter is empty, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#first">first</a> and <a href="#rest">rest</a>.</p>
+<div class="example">Examples:</div>
+<pre>(lambda (x) (* x x)) => (lambda (x) (* x x))
+
+(set 'a (lambda (x) (* x x))) => (lambda (x) (* x x))
+(a 2) => 4
+(a 3) => 9
+(a 4) => 16</pre>
+
+<div class="function"><a name="last">last</a></div>
+<div class="syntax">(last list-1)</div>
+<div class="syntax">(last str-1)</div>
+<p>Returns the last element of a list or the last character of a string. If the parameter is empty, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#first">first</a> and <a href="#rest">rest</a>.</p>
+<div class="example">Examples:</div>
+<pre>(last (1 2 3)) => 3
+
+(last "cat") => "t"
+
+(last ()) => nil
+
+(last "") => nil</pre>
+
+<div class="function"><a name="let">let</a></div>
+<div class="syntax">(let (sym-val-pairs) body)</div>
+<p>Creates a new scrope in which the given symbols are <a href="#set">set</a> to their paired objects. Evaluates the body of expressions and returns the last result.</p>
+<div class="example">Examples:</div>
+<pre>(let ('a 1 'b 2 'c 3) (+ a b c)) => 6
+
+(let ('boy "m" 'girl "f") (print boy "/" girl))
+m/f
+=> "m/f"
+
+(let ('a 1 'b 2 'c 3) (+ a b c) (- a b c)) => -4</pre>
+
+<div class="function"><a name="length">length</a></div>
+<div class="syntax">(length list-1)</div>
+<div class="syntax">(length str-1)</div>
+<div class="syntax">(length obj-1)</div>
+<p>Returns the number of elements in a list or the number of characters in a string. If the object is not a list or a string, returns <tt>0</tt>.</p>
+<div class="example">Examples:</div>
+<pre>(length (1 2 3 4)) => 4
+
+(length "abcdef") => 6
+
+(length ()) => 0
+
+(length "") => 0
+
+(length 100) => 1
+
+(length 'y) => 1</pre>
+
+<div class="function"><a name="is_list">list?</a></div>
+<div class="syntax">(list? obj-1)</div>
+<p>Returns <tt>true</tt> if obj-1 is a list. Otherwise, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#is_atom">atom?</a>.</p>
+<div class="example">Examples:</div>
+<pre>(list? (1 2 3)) => true
+
+(list? 1) => nil
+
+(list? "abc") => nil</pre>
+
+<div class="function"><a name="ln">ln</a></div>
+<div class="syntax">(ln num-1)</div>
+<p>Returns the natural log of num-1.</p>
+<div class="example">Examples:</div>
+<pre>(ln e) => 1</pre>
+
+<div class="function"><a name="log">log</a></div>
+<div class="syntax">(log num-1)</div>
+<p>Returns the base 10 log of num-1.</p>
+<div class="example">Examples:</div>
+<pre>(log 100) => 2</pre>
+
+<div class="function"><a name="number">number</a></div>
+<div class="syntax">(number str-1)</div>
+<p>Converts the string to a number. See <a href="#numbers">Numbers</a> for allowed types. If str-1 is unparsable, returns <tt>0</tt>.</p>
+<p>Complement of <a href="#string">string</a>.</p>
+<div class="example">Examples:</div>
+<pre>(number "1") => 1
+
+(number "-3.2") => -3.2
+
+(number "0xff") => 255
+
+(number "Z") => 0</pre>
+
+<div class="function"><a name="not">not</a></div>
+<div class="syntax">(not obj-1)</div>
+<p>If obj-1 is <tt>nil</tt>, returns <tt>true</tt>. Otherwise, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#and">and</a>, and <a href="#or">or</a>.</p>
+<div class="example">Examples:</div>
+<pre>(not nil) => true
+
+(not true) => nil
+
+(not "abc") => nil</pre>
+
+<div class="function"><a name="or">or</a></div>
+<div class="syntax">(or obj-1 obj-2 obj-3 ...)</div>
+<p>Returns <tt>true</tt> if any of the objects are not <tt>nil</tt>. Otherwise, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#and">and</a> and <a href="#not">not</a>.</p>
+<div class="example">Examples:</div>
+<pre>(or true true) => true
+
+(or true nil) => true</pre>
+
+<div class="function"><a name="pop">pop</a><a href="#destructive">!</a></div>
+<div class="syntax">(pop list-1)</div>
+<p>Removes then returns the first element of list-1.</p>
+<p>Complement of <a href="#push">push</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'a (1 2 3)) => (1 2 3)
+(pop a) => 1
+a => (2 3)</pre>
+
+<div class="function"><a name="prepend">prepend</a></div>
+<div class="syntax">(prepend list-1 obj-1)</div>
+<div class="syntax">(prepend str-1 str-2)</div>
+<p>For lists, prepends obj-1. For strings, concatenates str-1 and str-2. Returns the result.</p>
+<p>Complement of <a href="#append">append</a>.</p>
+<div class="example">Examples:</div>
+<pre>(prepend () 1) => (1)
+
+(prepend (2 3) 1) => (1 2 3)
+
+(prepend "at" "c") => "cat"</pre>
+
+<div class="function"><a name="print">print</a></div>
+<div class="syntax">(print [obj-1 [obj-2 [obj-3 ...]]])</div>
+<p>Converts objects to strings, concatenates them into a string string, and writes them to <tt>stdout</tt>. A newline is automatically added. Returns the string.</p>
+<div class="example">Examples:</div>
+<pre>(print "Hi")
+Hi
+=> "Hi"
+
+(print "I am " 5 " years old.")
+I am 5 years old.
+=> "I am 5 years old."</pre>
+
+<div class="function"><a name="push">push</a><a href="#destructive">!</a></div>
+<div class="syntax">(push list-1 obj-1)</div>
+<p>Prepends obj-1 to list-1 then returns list-1.</p>
+<p>Complement of <a href="#pop">pop</a>.</p>
+<div class="example">Examples:</div>
+<pre>(set 'a (2 3)) => (2 3)
+(push a 1) => (1 2 3)
+a => (1 2 3)
+
+(set 'b "obert")
+(push b "R") => "Robert"
+b => "Robert"</pre>
+
+<div class="function"><a name="rest">rest</a></div>
+<div class="syntax">(rest list-1)</div>
+<div class="syntax">(rest str-1)</div>
+<p>For a list, returns a new list containing every element except the first. For a string, returns a new string containing every character except the first. If the parameter is empty, returns <tt>nil</tt>.</p>
+<p>Complement of <a href="#first">first</a> and <a href="#last">last</a>.</p>
+<div class="example">Examples:</div>
+<pre>(rest (1 2 3)) => (2 3)
+
+(rest "cat") => "at"
+
+(rest ()) => nil
+
+(rest "") => nil</pre>
+
+<div class="function"><a name="set">set</a><a href="#destructive">!</a></div>
+<div class="syntax">(set sym-1 obj-1)</div>
+<p>Converts sym-1 to an id, maps the id to obj-1, and returns obj-1.</p>
+<div class="example">Examples:</div>
+<pre>(set 'a 1) => 1
+(set 'b 2) => 2
+(+ a b) => 3
+
+(set 'plus +)
+(set '+ -)
+(+ 1 1) => 0
+
+(set '+ plus)
+(+ 1 1) => 2</pre>
+
+<div class="function"><a name="sin">sin</a></div>
+<div class="syntax">(sin num-1)</div>
+<p>Returns the sine of num-1.</p>
+<p>Complement of <a href="#cos">cos</a>.</p>
+<div class="example">Examples:</div>
+<pre>(sine 0) => 0
+
+(sin (/ pi 2)) => 1</pre>
+
+<div class="function"><a name="split">split</a></div>
+<div class="syntax">(split str-1 sep)</div>
+<p>Returns the list of substrings in str-1 separated by sep.</p>
+<p>Complement of <a href="#join">join</a>.</p>
+<div class="example">Examples:</div>
+<pre>(split "a b c" " ") => ("a" "b" "c")
+
+(split "1, 2, 3" ", ") => ("1" "2" "3")
+
+(split "a b c" ":") => ("a b c")
+
+(split "a b c" "") => ("a b c")</pre>
+
+<div class="function"><a name="sqrt">sqrt</a></div>
+<div class="syntax">(sqrt num-1)</div>
+<p>Returns the square root of num-1.</p>
+<div class="example">Examples:</div>
+<pre>(sqrt 4) => 2
+
+(sqrt 100) => 10</pre>
+
+<div class="function"><a name="string">string</a></div>
+<div class="syntax">(string obj-1)</div>
+<p>Renders the object as a string.</p>
+<p>Complement of <a href="#number">number</a>.</p>
+<div class="example">Examples:</div>
+<pre>(string 1) => "1"
+
+(string (1 2 3)) => "(1 2 3)"
+
+(string -2e+200) => "-2e+200"
+
+(string (lambda (x) (* x x))) => "(lambda (x) (* x x))"
+
+(string nil) => "nil"</pre>
+
+<div class="function"><a name="time">time</a></div>
+<div class="syntax">(time)</div>
+<p>Returns the number of seconds since the epoch (1 Jan 1970).</p>
+<div class="example">Examples:</div>
+<pre>(time) => 1.26756e+09
+
+(set 'a (time))
+...
+(set 'b (time))
+(- b a) => 10</pre>
+
+<div class="function"><a name="while">while</a></div>
+<div class="syntax">(while condition body)</div>
+<p>Evaluates the condition. Until the condition is <tt>nil</tt>, evaluates the body of expressions, then returns the last result.</p>
+<div class="example">Examples:</div>
+<pre>(set 'i 0)
+
+(while (&lt; i 5)
+	(print i)
+	(set i (+ i 1)))
+0
+1
+2
+3
+4
+=> 5</pre>
+
+<div class="function"><a name="bnot">&tilde;</a></div>
+<div class="syntax">(~ num-1)</div>
+<p>Inverts the bits in num-1.</p>
+<p>Complement of <a href="#band">&amp;</a>, <a href="#bxor">&#94;</a>, and <a href="#bor">&#124;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(def (c x) (+ (~ x) 1))
+
+(c 0) => 0
+
+(c 1) => -1
+
+(c 2) => -2</pre>
+
+<div class="function"><a name="bor">&#124;</a></div>
+<div class="syntax">(| num-1 num-2 num-3 ...)</div>
+<p>Returns the bitwise-or of several numbers.</p>
+<p>Complement of <a href="#band">&amp;</a>, <a href="#bxor">&#94;</a>, and <a href="#bnot">&tilde;</a>.</p>
+<div class="example">Examples:</div>
+<pre>(| 2 4) => 6
+
+(| 0 0 0 0 0 0 0 0 0 0) => 0
+
+(| 0 0 0 0 0 0 0 0 0 1) => 1</pre>
+
+<h1><a name="license">License</a></h1>
+<div class="note">Note: Horns code and binaries are similarly licensed. <a href="http://code.google.com/p/horns">View</a> the source code for more information.</div>
+
+<p>FreeBSD Documentation License</p>
+
+<p>Copyright 2010 Andrew Pennebaker www.yellosoft.us. All rights reserved.</p>
+
+<p>Redistribution and use in source (HTML) and 'compiled' forms (SGML, PDF, PostScript, RTF and so forth) with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+	<li>Redistributions of source code (HTML) must retain the above copyright notice, this list of conditions and the following disclaimer as the first lines of this file unmodified.</li>
+	<li>Redistributions in compiled form (transformed to other DTDs, converted to PDF, PostScript, RTF and other formats) must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE AUTHORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+<div class="center"><div id="end"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB7klEQVRYw+3Xv0sCYRwG8K+ERCKOOjUETS3h5BxNrSINioh/gFMQSIPQEG1yTjUFOrbWP+DSH5AIIvRjC26SkFr07XnyDey4O++8F2q4wcG793m+H9R77xSllPzlS2JADAiyyBZJzUR2gpZyLTNGACORPZTdzQIWakCKGWYjAR5Eyih5R9lB2I+WGWbZsRbgXqSNsELJ9brfL7PsYFcoQE/kDCGFsI2STARAhh3sYmcggCVyjMVzDTiP+itnhwbM2e0LaIkUsOijt/jYPhHOGQDk2MVOdnOGK6AhsoWTr9ZCS8CtqWudXRqgOIOz3ACtll6kAScGASdLAMVZvwAVkW0cnDoARYOAogMw5cxlwE1Dn1wClAwCSg6A4sxvwJFIEm8mLoC6QUDdBTDhbAIOK/qgA9A1COi6ABRnE9D2ALzhEkoYuAwT7PIAtAkYegC4EeUNAPJ6I3IDDAl49gE0DQCaPoAnAgY+gBfs5+kI94I0O3wAAwL6PgDeDa0IAEvfDb0AfQKqKwAz27F/B3weKDC7AlAlYANvxj4AhbJHPOUkQzwRJZkZ6Q4PwJizf3bCXRzs4OTEA6BQWgsBqNk66wLgptfhTLfb8SYW7WNxGaELhK9QcomyU5RmQwCyzDDLDnaxk92cEf8viAH/CvAFRsAqCrhyUo4AAAAASUVORK5CYII%3D" width="32" height="32" alt="horns logo" /></div></div>
+
+</body>
+</html>
