@@ -16,5 +16,4 @@ extern int yyparse(void);
 
 void test_code(char *code, node *result);
 void test();
-
 #endif

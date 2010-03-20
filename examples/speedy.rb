@@ -14,3 +14,6 @@ puts "Speedy ran in #{end_t - start_t} seconds."
 #
 # MacBook Pro 64bit 2.53GHz 4GB 1067 MHz DDR3 / Mac OS X 10.6.2
 # Speedy ran in 9 seconds.
+#
+# MacBook Pro 64bit 2.53GHz 4GB 1067 MHz DDR3 / Windows 7 64bit
+# Speedy ran in 13 seconds.

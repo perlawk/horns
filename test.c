@@ -26,18 +26,6 @@ void test_code(char *code, node *result) {
 }
 
 void test() {
-	FILE *old_stdout=stdout;
-
-	#ifdef __MINGW32__
-	stdout=fopen("NUL", "w");
-	#else
-	stdout=fopen("/dev/null", "w");
-	#endif
-
-	test_code("(print \"hi\")", node_str("hi"));
-
-	stdout=old_stdout;
-
 	test_code("VERSION", node_str(VERSION));
 	test_code("()", node_empty_list());
 	test_code("(+ 1 2)", node_num(3));
