@@ -3,7 +3,7 @@
 
 = Installation =
 
-Choose an installer from the [http://code.google.com/p/horns/ Featured downloads] section.
+[http://code.google.com/p/horns/downloads/list Download] an installer.
 
 Mac, Windows, Linux, and a portable version are available.
 
@@ -21,19 +21,16 @@ Script mode:
 % horns script.lsp
 }}}
 
-= Example code =
-
-Save the following as hello.lsp.
+= Example =
 
 {{{
-(print "Hello World")
+% horns
+Horns v0.0.4 (c) 2010 Andrew Pennebaker www.yellosoft.us
+Press Control-C to exit.
+> (print "Hello World")
+Hello World
 }}}
 
+= Resources =
 
-  # Open a terminal.
-  # {{{cd}}} to the directory containing hello.lsp.
-  # Run {{{horns hello.lsp}}}
-
-The output should be
-
-{{{Hello World}}}
+For more information, [http://code.google.com/p/horns/downloads/list download] the manual.
