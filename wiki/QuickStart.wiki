@@ -32,7 +32,7 @@ Save the following as hello.lsp.
 
   # Open a terminal.
   # {{{cd}}} to the directory containing hello.lsp.
-  # Run {{{% horns hello.lsp}}}
+  # Run {{{horns hello.lsp}}}
 
 The output should be
 
