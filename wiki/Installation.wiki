@@ -1,0 +1,16 @@
+#summary How to install Horns
+#labels Featured,Phase-Deploy
+
+= Requirements =
+
+  * Mac OS X 10.5+ 64bit
+  * Windows 2000/XP/Vista/7 32bit
+  * Linux with libreadline6 32bit
+
+= Get It =
+
+[http://code.google.com/p/horns/downloads/list Download] and run an installer.
+
+= Compiling from source =
+
+Read the instructions in the [http://code.google.com/p/horns/downloads/list manual].
