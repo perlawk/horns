@@ -1,12 +1,6 @@
 #summary A snappy tutorial
 #labels Featured,Phase-Deploy
 
-= Installation =
-
-[http://code.google.com/p/horns/downloads/list Download] an installer.
-
-_Note: the Linux versions require libreadline6._
-
 = Usage =
 
 Interpreter:
@@ -29,6 +23,10 @@ Horns v0.0.4 (c) 2010 Andrew Pennebaker www.yellosoft.us
 Press Control-C to exit.
 > (print "Hello World")
 Hello World
+> (+ 1 1)
+=> 2
+> (** 2 5)
+=> 32
 }}}
 
 = Resources =
