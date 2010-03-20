@@ -5,7 +5,7 @@
 
 [http://code.google.com/p/horns/downloads/list Download] an installer.
 
-Mac, Windows, Linux, and a portable version are available.
+_Note: the Linux versions require libreadline6._
 
 = Usage =
 
