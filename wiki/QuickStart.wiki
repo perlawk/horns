@@ -1,0 +1,39 @@
+#summary A snappy tutorial
+#labels Featured,Phase-Deploy
+
+= Installation =
+
+Choose an installer from the [http://code.google.com/p/horns/ Featured Downloads] section.
+
+Mac, Windows, Linux, and a portable version are available.
+
+= Usage =
+
+Interpreter:
+
+{{{
+% horns
+}}}
+
+Script mode:
+
+{{{
+% horns script.lsp
+}}}
+
+= Example code =
+
+Save the following as hello.lsp.
+
+{{{
+(print "Hello World")
+}}}
+
+
+  # Open a terminal.
+  # {{{cd}}} to the directory containing hello.lsp.
+  # Run {{{% horns hello.lsp}}}
+
+The output should be
+
+{{{Hello World}}}
