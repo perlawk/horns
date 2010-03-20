@@ -6,6 +6,7 @@
     <ROW Property="ARPCONTACT" Value="root@yellosoft.us"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="ARPNOREPAIR" Value="1"/>
+    <ROW Property="ARPPRODUCTICON" Value="horns.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="http://code.google.com/p/horns/"/>
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
@@ -34,7 +35,7 @@
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="horns.exe" Component_="horns.exe" FileName="horns.exe" Attributes="0" SourcePath="horns.exe" SelfReg="false" Sequence="1"/>
+    <ROW File="horns.exe" Component_="horns.exe" FileName="horns.exe" Attributes="0" SourcePath="..\horns.exe" SelfReg="false" Sequence="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
     <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageName="Horns-[|ProductVersion]" Languages="en" InstallationType="4"/>
@@ -87,6 +88,9 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiEnvComponent">
     <ROW Environment="PATH" Name="=-PATH" Value="[~];[ProgramFilesFolder]\horns" Component_="horns.exe"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="horns.exe" SourcePath="horns.ico" Index="0"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
@@ -103,8 +107,8 @@
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsFamily9X]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="horns.exe" Directory_="SHORTCUTDIR" Name="Horns" Component_="horns.exe" Target="[#horns.exe]" Description="horns.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
-    <ROW Shortcut="horns.exe_1" Directory_="DesktopFolder" Name="Horns" Component_="horns.exe" Target="[#horns.exe]" Description="horns.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="horns.exe" Directory_="SHORTCUTDIR" Name="Horns" Component_="horns.exe" Target="[#horns.exe]" Description="horns.exe" Hotkey="0" Icon_="horns.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="horns.exe_1" Directory_="DesktopFolder" Name="Horns" Component_="horns.exe" Target="[#horns.exe]" Description="horns.exe" Hotkey="0" Icon_="horns.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
