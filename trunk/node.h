@@ -35,6 +35,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define VERSION "0.0.4"
 #define COPYRIGHT "(c) 2010 Andrew Pennebaker www.yellosoft.us"
+
+#ifdef __x86_64__
+	#define ARCH "64bit"
+#else
+	#define ARCH "32bit"
+#endif
+
 #define HOW_TO_EXIT "Press Control-C to exit."
 #define PROMPT "> "
 #define MAX_LINE 2048

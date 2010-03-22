@@ -1,7 +1,7 @@
 Core:
 +Lambda
-+Test on Mac/Win/Lin
--Create 32/64 bit versions
+-Test on Mac/Win/Lin
++Create 32/64 bit versions
 -Garbage collection
 
 Meta:
