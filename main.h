@@ -16,6 +16,5 @@ extern int yyparse(void);
 
 void usage(char *program);
 char *banner();
-void version();
 int main(int argc, char **argv);
 #endif

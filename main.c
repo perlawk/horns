@@ -37,14 +37,9 @@ void usage(char *program) {
 }
 
 char *banner() {
-	char *result=alloc_string(strlen(VERSION)+strlen(COPYRIGHT)+6);
-	sprintf(result, "Horns v%s %s", VERSION, COPYRIGHT);
+	char *result=alloc_string(strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6);
+	sprintf(result, "Horns v%s %s %s", VERSION, ARCH, COPYRIGHT);
 	return result;
-}
-
-void version() {
-	printf("%s\n", banner());
-	exit(0);
 }
 
 int main(int argc, char **argv) {
@@ -104,7 +99,8 @@ int main(int argc, char **argv) {
 		case HELP_MODE:
 			usage(argv[0]);
 		case VERSION_MODE:
-			version();
+			printf("%s\n", banner());
+			exit(0);
 		case TEST_MODE:
 			test();
 		case EXP_MODE:
