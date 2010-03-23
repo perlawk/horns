@@ -851,6 +851,9 @@ node *node_do(node *args) {
 
 	// construct lambda
 	if (op->type == LIST_TYPE) {
+		// empty list
+		if (op->first->type == TAIL_TYPE) return args;
+
 		if (op->first->type == ID_TYPE) {
 			if (streq(op->first->str, "lambda")) {
 				op=node_do(op);	
