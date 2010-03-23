@@ -92,8 +92,8 @@ char *from_literal(char *s);
 char *to_literal(char *s);
 node *node_str(char *s);
 node *node_copy(node *p);
-int node_is_list(node *p);
-int node_is_atom(node *p);
+#define node_is_list(P) P->type == LIST_TYPE
+#define node_is_atom(P) P->type != LIST_TYPE
 int node_length(node *p);
 int node_cmp(node *a, node *b);
 node *node_empty_list();
@@ -102,7 +102,7 @@ node *node_append(node *p, node *e);
 node *node_prepend(node *p, node *e);
 node *node_cat(node *args);
 node *node_id2sym(node *s);
-node *node_sym2id(node *s);
+#define node_sym2id(S) node_id((char *) (S->str+1))
 int node_id_exists(node *s);
 node *node_get(node *s);
 node *node_set(node *s, node *v);
@@ -111,12 +111,12 @@ node *node_rest(node *args);
 node *node_last(node *args);
 int node_index(node *p, node *e);
 int node_count(node *p, node *e);
-int node_is_in(node *p, node *e);
+#define node_is_in(P, E) node_index(P, E) != -1
 node *node_push(node *p, node *e);
 node *node_pop(node *p);
 node *node_at(node *p, int index);
 node *node_hash(node *k, node *v);
-int node_is_hash(node *h);
+#define node_is_hash(H) node_is_list(H) && node_length(H) == 2 && H->first->type == LIST_TYPE && H->rest->first->type == LIST_TYPE
 node *node_hash_get(node *h, node *k);
 node *node_hash_set(node *h, node *k, node *v);
 char *node_string_join(node *p, char *sep);
