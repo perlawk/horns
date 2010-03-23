@@ -233,10 +233,6 @@ node *node_copy(node *p) {
 	}
 }
 
-int node_is_list(node *p) { return p->type == LIST_TYPE; }
-
-int node_is_atom(node *p) { return !node_is_list(p); }
-
 int node_length(node *p) {
 	if (p->type == STRING_TYPE) return strlen(p->str);
 
@@ -440,8 +436,6 @@ node *node_id2sym(node *s) {
 	return temp;
 }
 
-node *node_sym2id(node *s) { return node_id((char *) (s->str+1)); }
-
 int node_id_exists(node *s) {
 	if (s->type != ID_TYPE) return 0;
 
@@ -596,18 +590,11 @@ int node_count(node *p, node *e) {
 	return count;
 }
 
-int node_is_in(node *p, node *e) { return node_index(p, e) != -1; }
-
 node *node_push(node *p, node *e) {
-	if (p->type == ID_TYPE) p=node_get(p);
-	if (e->type == ID_TYPE) e=node_get(e);
-
 	*p=*(node_prepend(p, e)); return p;
 }
 
 node *node_pop(node *p) {
-	if (p->type == ID_TYPE) p=node_get(p);
-
 	node *temp=node_first(p);
 	*p=*(node_copy(node_rest(p)));
 	return temp;
@@ -636,15 +623,6 @@ node *node_hash(node *k, node *v) {
 	new=node_append(new, k);
 	new=node_append(new, v);
 	return new;
-}
-
-int node_is_hash(node *h) {
-	return (
-		node_is_list(h) &&
-		node_length(h) == 2 &&
-		h->first->type == LIST_TYPE &&
-		h->rest->first->type == LIST_TYPE
-	);
 }
 
 node *node_hash_get(node *h, node *k) {
@@ -808,8 +786,11 @@ node *node_do_lambda(node *l, node *args) {
 	int arg_len=0;
 	if (args->type == LIST_TYPE) arg_len=node_length(args);
 
-	if (arg_len < var_len) {
-		yyerror("error: this lambda requires more parameters.");
+	if (var_len != arg_len) {
+		char *msg=alloc_string(40+30);
+		sprintf(msg, "error: this lambda requires %d parameters.", var_len);
+		yyerror(msg);
+		free(msg);
 		return node_nil();
 	}
 
@@ -869,7 +850,30 @@ node *node_do(node *args) {
 	}
 
 	// construct lambda
-	if (op->type == LIST_TYPE) op=node_do(op);
+	if (op->type == LIST_TYPE) {
+		if (op->first->type == ID_TYPE) {
+			if (streq(op->first->str, "lambda")) {
+				op=node_do(op);	
+			}
+			else {
+				char *op_s=op->first->str;
+				char *msg=alloc_string(strlen(op_s)+17);
+				sprintf(msg, "unknown function: %s", op_s);
+				free(op_s);
+				yyerror(msg);
+				free(msg);
+
+				NODE_RESULT=node_nil();
+				return NODE_RESULT;
+			}
+		}
+		else {
+			yyerror("first parameter is not a function");
+			NODE_RESULT=node_nil();
+			return NODE_RESULT;
+		}
+	}
+
 	t=op->type;
 
 	switch(t) {
