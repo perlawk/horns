@@ -17,21 +17,9 @@ D [0-9]
 H [a-fA-F0-9]
 E [Ee][+-]?{D}+
 
-hex 0[xX]{H}+
+number 0[xX]{H}+|[+\-]?({D}*"."{D}+({E})?)|({D}+("."{D}*)?({E})?)
 
-octal 0{7}+
-
-decimal {D}+
-
-scientific {D}+{E}
-
-double ({D}*"."{D}+({E})?)|({D}+"."{D}*({E})?)
-
-number {hex}|[+\-]?({octal}|{decimal}|{scientific}|{double})
-
-id_char [~&\|\^+\-*/%?<>=!a-zA-Z_]
-
-id {id_char}+({id_char}|{D})*
+id [~&\|\^+\-*/%?<>=!a-zA-Z0-9_]+
 
 string \"(\\.|[^\\"])*\"
 
