@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include "libhorns.h"
 
+extern int NOTHING_TO_DO;
+
 extern char **environ;
 
 void horns_init() {
@@ -912,6 +914,8 @@ node *node_print(node *args) {
 	}
 
 	printf("%s\n", buffer);
+
+	NOTHING_TO_DO=1;
 
 	return node_str(buffer);
 }

@@ -9,23 +9,18 @@
 #endif
 
 #include "node.h"
+#include "libhorns.h"
+#include "parse.h"
 #include "test.h"
-#include "main.h"
 
 extern FILE *yyin;
 
-extern node *TAIL;
 extern node *NODE_RESULT;
-
-int NOTHING_TO_DO;
 
 mode_type MODE;
 
 int SUCCESSES;
 int FAILURES;
-
-extern int yy_scan_string(char *);
-extern int yyparse(void);
 
 void usage(char *program) {
 	printf("Usage: %s [script]\n", program);
@@ -105,7 +100,8 @@ int main(int argc, char **argv) {
 			test();
 		case EXP_MODE:
 			yy_scan_string(exp);
-			yyparse();
+			parse();
+			//yyparse();
 
 			if (!NOTHING_TO_DO) printf("%s\n", node_string(NODE_RESULT, 1));
 
@@ -126,7 +122,8 @@ int main(int argc, char **argv) {
 
 				if (!streq(line, "\n")) {
 					yy_scan_string(line);
-					yyparse();
+					parse();
+					//yyparse();
 
 					if (!NOTHING_TO_DO) printf("=>%s\n", node_string(NODE_RESULT, 1));
 				}
@@ -145,7 +142,8 @@ int main(int argc, char **argv) {
 			}
 
 			yyin=script;
-			yyparse();
+			parse();
+			//yyparse();
 			fclose(yyin);
 	}
 

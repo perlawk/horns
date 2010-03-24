@@ -18,7 +18,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 
 #title { padding-top: 4%; font-size: 800%; color: #c00; }
 
-.note, .warning, .alert { padding: 4px 4px 4px 4px; color: white; }
+.note, .warning, .alert { margin: 2px; padding: 2px; color: white; }
 .note a, .warning a, .alert a { color: black; }
 
 .note { background-color: #43c6db; }
@@ -96,11 +96,11 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <h1><a name="intro">Introduction</a></h1>
 <div class="alert">Alert: Horns is very new and prone to segmentation faults. There is no garbage collection available. Do not use Horns in critical applications.</div>
 <p>Horns is a minimal Lisp implementation. Its primary goal is to manipulate <tt>lambda</tt> expressions in an interpretive environment.</p>
-<p>Horns is extremely regular and therefore (i) easy to parse, (ii) easy to debug, and (iii) easy to learn. The grammar is an <a href="http://en.wikipedia.org/wiki/LALR">LALR</a> based on S-expressions as specified in <tt>horns.y</tt>. This file is both the implementation and specification for the language. Unlike C++, Horns is portable, powerful, plain, plastic, precise, petite, polite and people-friendly, and pointer-free.</p>
+<p>Horns is extremely regular and therefore (i) easy to parse, (ii) easy to debug, and (iii) easy to learn. The grammar is an <a href="http://en.wikipedia.org/wiki/LL_parser">LL(1)</a> based on S-expressions as specified in <tt>parse.c</tt>. Unlike C++, Horns is portable, powerful, plain, plastic, precise, petite, polite and people-friendly, and pointer-free.</p>
 <p>Horns is fun. It acts as Polish calculator, shell script, and Lisp primer.</p>
 
 <h1><a name="news">News</a></h1>
-<p>Version 0.0.4 - Removed memory leaks. Removed redundant <tt>list</tt> function. Added bitwise operators.</p>
+<p>Version 0.0.4 - Removed memory leaks. Removed redundant <tt>list</tt> function. Added bitwise operators. New recursive descent parser.</p>
 <p>Version 0.0.3 - Portable version created. Added control functions. Added math functions. Added expression mode.</p>
 <p>Version 0.0.2 - Installers available for Mac, Windows, and Linux.</p>
 <p>Version 0.0.1 - Lambda works!</p>
@@ -115,7 +115,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <h2><a name="download">Download</a></h2>
 <p>Binary and source downloads are available at <a href="http://code.google.com/p/horns">http://code.google.com/p/horns</a>.</p>
 <h2><a name="required-tools">Required Tools</a></h2>
-<div class="note">Note: If you use Lex/Yacc instead of Flex/Bison, you will need to modify <tt>makefile</tt> accordingly.</div>
+<div class="note">Note: If you use Lex instead of Flex, you will need to modify the makefiles accordingly.</div>
 <p>If you plan to build from source, install the corresponding toolset:</p>
 <ul>
 	<li>
@@ -130,7 +130,6 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 			<li><a href="http://sourceforge.net/projects/mingw/files/">MinGw</a></li>
 			<li><a href="http://mingw.org/wiki/MSYS">MSYS</a></li>
 			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20flex/">flex</a></li>
-			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20bison/">bison</a></li>
 			<li><a href="http://sourceforge.net/projects/mingw/files/MSYS%20regex/">regex</a></li>
 		</ul>
 	</li>
@@ -140,13 +139,13 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 			<li>gcc</li>
 			<li>make</li>
 			<li>flex</li>
-			<li>bison</li>
 			<li>libreadline-dev</li>
 		</ul>
 	</li>
 </ul>
 <h2><a name="compilation">Compilation</a></h2>
 <div class="note">Note: Windows users must compile Horns in MSYS but run horns.exe in a normal Command Prompt.</div>
+<div class="note">Note: For 64bit mode, run <tt>make -f 64.mf</tt>.</div>
 <ol>
 	<li>Download source (see above).</li>
 	<li>Enter <tt>cd <i>horns-dir</i></tt>.</li>
@@ -1213,13 +1212,13 @@ b => "Robert"</pre>
 <p>Inverts the bits in num-1.</p>
 <p>Complement of <a href="#band">&amp;</a>, <a href="#bxor">&#94;</a>, and <a href="#bor">&#124;</a>.</p>
 <div class="example">Examples:</div>
-<pre>(def (2c x) (+ (~ x) 1))
+<pre>(def (compl x) (+ (~ x) 1))
 
-(2c 0) => 0
+(compl 0) => 0
 
-(2c 1) => -1
+(compl 1) => -1
 
-(2c 2) => -2</pre>
+(compl 2) => -2</pre>
 
 <div class="function"><a name="bor">&#124;</a></div>
 <div class="syntax">(| num-1 num-2 num-3 ...)</div>

@@ -1,15 +1,15 @@
 #!/usr/bin/env horns
 
-(def (2c x) (+ (~ x) 1))
+(def (compl x) (+ (~ x) 1))
 
-(print "(2c 0) = " (2c 0))
+(print "(compl 0) = " (compl 0))
 
-(print "(2c 1) = " (2c 1))
+(print "(compl 1) = " (compl 1))
 
-(print "(2c 2) = " (2c 2))
+(print "(compl 2) = " (compl 2))
 
-(print "(2c 3) = " (2c 3))
+(print "(compl 3) = " (compl 3))
 
-(print "(2c 4) = " (2c 4))
+(print "(compl 4) = " (compl 4))
 
-(print "(2c 5) = " (2c 5))
+(print "(compl 5) = " (compl 5))

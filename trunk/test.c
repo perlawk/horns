@@ -1,24 +1,19 @@
 #include <stdio.h>
 #include "test.h"
-#include "y.tab.h"
+#include "libhorns.h"
+#include "parse.h"
 
-extern node *TAIL;
 extern node *NODE_RESULT;
-extern int NOTHING_TO_DO;
-extern mode_type MODE;
 extern int SUCCESSES;
 extern int FAILURES;
 
 extern int yy_scan_string(char *);
-extern int yyparse(void);
 
 void test_code(char *code, node *result) {
 	yy_scan_string(code);
-	yyparse();
+	parse();
 
-	if (node_cmp(NODE_RESULT, result) == 0) {
-		SUCCESSES++;
-	}
+	if (node_cmp(NODE_RESULT, result) == 0) SUCCESSES++;
 	else {
 		FAILURES++;
 		printf("FAIL %s => %s\n", code, node_string(NODE_RESULT, 1));

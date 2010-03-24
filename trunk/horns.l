@@ -1,13 +1,13 @@
 /* Based on "A Compact Guide to Lex & Yacc" (http://epaperpress.com/lexandyacc/) */
 
 %{
+	#include "tokens.h"
 	#include "node.h"
-	#include "y.tab.h"
 
 	#define YY_NO_INPUT
 	#define YYSTYPE yylval;
 
-	extern int NOTHING_TO_DO;
+	extern node *yylval;
 %}
 
 %option yylineno
@@ -19,38 +19,42 @@ E [Ee][+-]?{D}+
 
 number 0[xX]{H}+|[+\-]?({D}*"."{D}+({E})?)|({D}+("."{D}*)?({E})?)
 
-id [~&\|\^+\-*/%?<>=!a-zA-Z0-9_]+
+id_char [~&\|\^+\-*/%?<>=!a-zA-Z_]
+
+id {id_char}+{D}*
+
+symbol "\'"{id}
 
 string \"(\\.|[^\\"])*\"
 
-quote "\'"
+lparen "("
+
+rparen ")"
 
 comment ;.*|#!.*
 
 space [\n\r\t ]+
 
-misc [()]
-
 bad .
 
 %%
 
-{number} { yylval.n=atof(yytext); return NUMBER; }
+{number} { yylval=node_num(atof(yytext)); return NUMBER_TOK; }
 
-{id} { yylval.s=yytext; return ID; }
+{id} { yylval=node_id(yytext); return ID_TOK; }
 
-{string} { yylval.s=yytext; return STRING; }
+{symbol} { yylval=node_sym(yytext); return SYMBOL_TOK; }
 
-{quote} { return QUOTE; }
+{string} { yylval=node_str(from_literal(yytext)); return STRING_TOK; }
+
+{lparen} { return LPAREN_TOK; }
+
+{rparen} { return RPAREN_TOK; }
 
 {comment}|{space} ; /* ignore */
 
-{misc} { return *yytext; }
-
-{bad} { NOTHING_TO_DO=1; yylval.s=yytext; return BAD; }
+{bad} { yylval=node_str(yytext); return BAD_TOK; }
 
 %%
 
-int yywrap(void) {
-	return 1;
-}
+int yywrap(void) { return 1; }
