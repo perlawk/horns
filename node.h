@@ -1,3 +1,6 @@
+#ifndef NODE_H
+#define NODE_H
+
 /*
 
 FreeBSD License
@@ -25,9 +28,6 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-
-#ifndef NODE_H
-#define NODE_H
 
 #include <string.h>
 #define streq(a, b) strcmp(a, b) == 0

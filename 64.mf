@@ -1,4 +1,4 @@
-MACHINE=-m32
+MACHINE=-m64
 
 ifeq ("${MSYSTEM}","MINGW32")
 	READLINE=

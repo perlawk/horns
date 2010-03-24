@@ -1,12 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "node.h"
-#include "y.tab.h"
 
 node *TAIL;
 node *SYM_STACK;
 node *NODE_RESULT;
-extern int NOTHING_TO_DO;
+int NOTHING_TO_DO;
 extern int yylineno;
 extern mode_type MODE;
 
@@ -844,8 +843,7 @@ node *node_do(node *args) {
 			yyerror(msg);
 			free(msg);
 
-			NODE_RESULT=node_nil();
-			return NODE_RESULT;
+			return node_nil();
 		}
 	}
 
@@ -856,7 +854,7 @@ node *node_do(node *args) {
 
 		if (op->first->type == ID_TYPE) {
 			if (streq(op->first->str, "lambda")) {
-				op=node_do(op);	
+				op=node_do(op);
 			}
 			else {
 				char *op_s=op->first->str;
@@ -866,14 +864,12 @@ node *node_do(node *args) {
 				yyerror(msg);
 				free(msg);
 
-				NODE_RESULT=node_nil();
-				return NODE_RESULT;
+				return node_nil();
 			}
 		}
 		else {
 			yyerror("first parameter is not a function");
-			NODE_RESULT=node_nil();
-			return NODE_RESULT;
+			return node_nil();
 		}
 	}
 
