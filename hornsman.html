@@ -286,7 +286,8 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 </ul>
 
 <h3><a name="ids">Identifiers</a></h3>
-<p>Anything matching the regular expression <tt>[+\-*/%?&lt;&gt;=!a-zA-Z_]+[+\-*/%?&lt;&gt;=!a-zA-Z_0-9]*</tt></p>
+<div class="warning">Warning: IDs may not begin with digits.</div>
+<p>A combination of the following characters: <tt>~&amp;|^+-*/%?&lt;&gt;=!a-zA-Z0-9_</tt></p>
 <ul>
 	<li><tt>x</tt></li>
 	<li><tt>Bob</tt></li>
