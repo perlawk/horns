@@ -3,9 +3,9 @@
 
 = Requirements =
 
-  * Mac OS X 10.5+ 64bit
-  * Windows 2000/XP/Vista/7 32bit
-  * Linux with libreadline6 32bit
+  * Mac OS X 10.5+ x86/x64
+  * Windows 2000/XP/Vista/7 x86
+  * Linux with libreadline6 x86/x64
 
 = Get It =
 
