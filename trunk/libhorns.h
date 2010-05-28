@@ -67,6 +67,7 @@ node *f_join(node *args);
 node *node_env(node *args);
 node *node_exec(node *args);
 node *node_if(node *args);
+node *node_unless(node *args);
 node *node_for(node *args);
 node *node_while(node *args);
 node *node_let(node *args);
