@@ -14,7 +14,7 @@
     <ROW Property="ProductCode" Value="1033:{7525D6C3-717A-493D-85F2-635B719DF34F} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Horns" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="0.0.4"/>
+    <ROW Property="ProductVersion" Value="0.0.5"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{786B9AAB-48DE-46CA-B992-C21EA7CEC744}"/>
     <ROW Property="WindowsFamily9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
