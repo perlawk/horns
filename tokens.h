@@ -9,6 +9,7 @@ typedef enum {
 	STRING_TOK,
 	LPAREN_TOK,
 	RPAREN_TOK,
+	QUOTE_TOK,
 	BAD_TOK
 } tok_type;
 

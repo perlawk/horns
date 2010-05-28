@@ -52,6 +52,7 @@ void horns_init() {
 	node_build("exec", node_exec);
 	node_build("exists?", f_id_exists);
 	node_build("exit", node_exit);
+	node_build("eval", f_eval);
 	node_build("first", f_first);
 	node_build("floor", node_floor);
 	node_build("for", node_for);
@@ -81,6 +82,7 @@ void horns_init() {
 	node_build("prepend", f_prepend);
 	node_build("print", node_print);
 	node_build("push", f_push);
+	node_build("quote", f_quote);
 	node_build("rest", f_rest);
 	node_build("set", f_set);
 	node_build("sin", node_sin);
@@ -193,7 +195,7 @@ node *f_length(node *args) {
 node *node_is_empty(node *args) {
 	if (param_fail("empty?", args, 1, 1)) return node_nil();
 
-	args=args->first;
+	args=node_do(args->first);
 
 	if (node_length(args) == 0) return node_true();
 	else return node_nil();
@@ -748,7 +750,9 @@ node *node_time(node *args) {
 node *f_split(node *args) {
 	if (param_fail("split", args, 2, 2)) return node_nil();
 
-	args=node_do(args);
+	args=node_do_list(args);
+
+	if (list_type_fail("split", args, STRING_TYPE)) return node_nil();
 
 	return node_split(args->first->str, args->rest->first->str);
 }
@@ -812,9 +816,7 @@ node *f_at(node *args) {
 node *f_hash(node *args) {
 	if (param_fail("hash", args, 2, 2)) return node_nil();
 
-	node_do_list(args);
-
-	return node_hash(args->first, args->rest->first);
+	return node_hash(node_do(args->first), node_do(args->rest->first));
 }
 
 node *f_is_hash(node *args) {
@@ -996,6 +998,16 @@ node *node_join(node *p, node *e) {
 	free(buffer);
 
 	return res;
+}
+
+node *f_quote(node *args) {
+	if (args->type==NIL_TYPE) return node_empty_list();
+	else return args;
+}
+
+node *f_eval(node *args) {
+	args=node_first(node_do_list(args));
+	return node_do(args);
 }
 
 node *node_env(node *args) {

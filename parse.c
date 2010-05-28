@@ -44,6 +44,10 @@ node *_exp() {
 			t=yylval;
 			match(LOOKAHEAD);
 			return t;
+		case QUOTE_TOK:
+			match(QUOTE_TOK);
+			t=yylval;
+			return node_prepend(sexp(), t);
 		case LPAREN_TOK:
 			return sexp();
 		case RPAREN_TOK:
