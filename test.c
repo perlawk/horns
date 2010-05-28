@@ -228,6 +228,11 @@ void test() {
 	test_code("(if (> 1 2) 1 2)", node_num(2));
 	test_code("(if (> 1 2) 1)", node_nil());
 
+	test_code("(unless (< 1 2) 1 2)", node_num(2));
+	test_code("(unless (< 1 2) 1)", node_nil());
+	test_code("(unless (> 1 2) 1 2)", node_num(1));
+	test_code("(unless (> 1 2) 1)", node_num(1));
+
 	test_code("(set \'i 0)", node_num(0));
 
 	test_code("(while (< i 5) (set \'i (+ i 1)))", node_num(5));

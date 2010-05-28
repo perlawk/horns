@@ -62,6 +62,7 @@ void horns_init() {
 	node_build("hash-set", f_hash_set);
 	node_build("hash-values", node_hash_values);
 	node_build("if", node_if);
+	node_build("unless", node_unless);
 	node_build("in?", f_is_in);
 	node_build("index", f_index);
 	node_build("input", node_input);
@@ -1084,6 +1085,27 @@ node *node_if(node *args) {
 	node *res;
 
 	if (node_do(cond)->type == NIL_TYPE) res=node_do(else_exp);
+	else res=node_do(if_exp);
+
+	return res;
+}
+
+node *node_unless(node *args) {
+	if (param_fail("unless", args, 2, 3)) return node_nil();
+
+	int len=node_length(args);
+
+	node *cond=args->first;
+
+	node *if_exp=args->rest->first;
+
+	node *else_exp;
+	if (len == 2) else_exp=node_nil();
+	else else_exp=args->rest->rest->first;
+
+	node *res;
+
+	if (node_do(cond)->type != NIL_TYPE) res=node_do(else_exp);
 	else res=node_do(if_exp);
 
 	return res;

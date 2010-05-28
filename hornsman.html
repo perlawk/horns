@@ -197,6 +197,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 	<li><a href="#or">or</a></li>
 	<li><a href="#print">print</a></li>
 	<li><a href="#string">string</a></li>
+	<li><a href="#unless">unless</a></li>
 </ul>
 
 <h3><a name="numbers">Numbers</a></h3>
@@ -890,6 +891,7 @@ hi
 <div class="function"><a name="if">if</a></div>
 <div class="syntax">(if condition body-1 [body-2])</div>
 <p>Evaluates condition. If <tt>true</tt>, evaluates body-1. If <tt>nil</tt>, evaluates body-2 or <tt>nil</tt>.</p>
+<p>Complement of <a href="#unless">unless</a>.</p>
 <div class="example">Examples:</div>
 <pre>(if (&lt; 1 2) 1 2) => 1
 
@@ -1191,6 +1193,19 @@ b => "Robert"</pre>
 ...
 (set 'b (time))
 (- b a) => 10</pre>
+
+<div class="function"><a name="unless">unless</a></div>
+<div class="syntax">(unless condition body-1 [body-2])</div>
+<p>Evaluates condition. If <tt>nil</tt>, evaluates body-1. If <tt>true</tt>, evaluates body-2 or <tt>nil</tt>.</p>
+<p>Complement of <a href="#if">if</a>.</p>
+<div class="example">Examples:</div>
+<pre>(unless (&lt; 1 2) 1 2) => 2
+
+(unless (&lt; 1 2) 1) => nil
+
+(unless (&gt; 1 2) 1 2) => 1
+
+(unless (&gt; 1 2) 1) => 1</pre>
 
 <div class="function"><a name="while">while</a></div>
 <div class="syntax">(while condition body)</div>
