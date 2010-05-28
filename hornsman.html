@@ -4,7 +4,7 @@
 
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-<title>Horns Manual v0.0.4</title>
+<title>Horns Manual v0.0.5</title>
 
 <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAAAAD///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8BAACaDwAAvkUAAOI/AAD/B////wH///8B////Af///wEAAP8HAADiPwAAvkUAAJoP////Af///wEAAFI/AAB2xQAAmvsAAL7/AADi9QAA/xv///8B////Af///wH///8BAAD/GwAA4vUAAL7/AACa+wAAdsUAAFI/AABSxQAAdv8AAJr/AAC+/wAA4nH///8B////Af///wH///8B////Af///wEAAOJxAAC+/wAAmv8AAHb/AABSxQAAUu0AAHb/AACa/wAAvtUAAOID////Af///wH///8B////Af///wH///8BAADiAwAAvtUAAJr/AAB2/wAAUu0AAFLdAAB2/wAAmv8AAL6H////Af///wH///8B////Af///wH///8B////Af///wEAAL6HAACa/wAAdv8AAFLdAABSkQAAdv8AAJr/AAC+Rf///wH///8B////Af///wH///8B////Af///wH///8BAAC+RQAAmv8AAHb/AABSkQAAUi8AAHb9AACa/wAAvj////8B////Af///wH///8B////Af///wH///8B////AQAAvj8AAJr/AAB2/QAAUi////8BAAB2mQAAmv8AAL5T////Af///wH///8B////Af///wH///8B////Af///wEAAL5TAACa/wAAdpn///8B////AQAAdg0AAJrRAAC+p////wH///8B////Af///wH///8B////Af///wH///8BAAC+pwAAmtEAAHYN////Af///wH///8BAACaHwAAvt8AAOIr////Af///wH///8B////Af///wH///8BAADiKwAAvt8AAJof////Af///wH///8B////Af///wEAAL4XAADihQAA/wP///8B////Af///wH///8BAAD/AwAA4oUAAL4X////Af///wH///8B////Af///wH///8B////AQAA4gMAAP8J////Af///wH///8B////AQAA/wkAAOID////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//w%3D%3D" />
 
@@ -42,7 +42,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <div class="center">
 	<div id="title">Horns</div>
 	<h2>For Mac, Windows, and Linux</h2>
-	<h1>Users Manual and Reference v0.0.4</h1>
+	<h1>Users Manual and Reference v0.0.5</h1>
 	<p>&copy; Andrew Pennebaker 2010 www.yellosoft.us. All rights reserved.<sup><a href="#license">1</a></sup></p>
 </div>
 
@@ -100,7 +100,8 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <p>Horns is fun. It acts as calculator, shell script, and Lisp primer.</p>
 
 <h1><a name="news">News</a></h1>
-<p>Version 0.0.4 - Removed memory leaks. Removed <tt>list</tt>, added <tt>quote</tt>. Added bitwise operators. New recursive descent parser.</p>
+<p>Version 0.0.5 - Added <tt>unless</tt>, <tt>quote</tt>, <tt>eval</tt>, <tt>PLATFORM</tt>, <tt>ARCH</tt>, and <tt>COPYRIGHT</tt>.</p>
+<p>Version 0.0.4 - Removed memory leaks. Removed redundant <tt>list</tt> function. Added x64 versions for Mac and Linux.</p>
 <p>Version 0.0.3 - Portable version created. Added control functions. Added math functions. Added expression mode.</p>
 <p>Version 0.0.2 - Installers available for Mac, Windows, and Linux.</p>
 <p>Version 0.0.1 - Lambda works!</p>
@@ -108,7 +109,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <h1><a name="get-it">Get it</a></h1>
 <h2><a name="reqs">Requirements</a></h2>
 <ul>
-	<li>Mac OS X 10.5+ x86/x64</li>
+	<li>Mac OS X 10.4+ x86/x64</li>
 	<li>Windows 2000/XP/Vista/7 x86</li>
 	<li>Linux with libreadline6 x86/x64</li>
 </ul>
@@ -406,7 +407,17 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 
 e => 2.71828
 
-VERSION => "0.0.4"
+VERSION => "0.0.5"
+
+PLATFORM => "Unix"
+
+PLATFORM => "Windows"
+
+ARCH => "x86"
+
+ARCH => "x64"
+
+COPYRIGHT => "(c) 2010 Andrew Pennebaker www.yellosoft.us"
 
 ARGV is the list of command line arguments given to a script.</pre>
 

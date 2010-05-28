@@ -17,6 +17,9 @@ void horns_init() {
 	node_set(node_sym("\'pi"), node_num(M_PI));
 	node_set(node_sym("\'e"), node_num(M_E));
 	node_set(node_sym("\'VERSION"), node_str(VERSION));
+	node_set(node_sym("\'PLATFORM"), node_str(PLATFORM));
+	node_set(node_sym("\'ARCH"), node_str(ARCH));
+	node_set(node_sym("\'COPYRIGHT"), node_str(COPYRIGHT));
 
 	node_build("!=", node_neq);
 	node_build("%", node_mod);

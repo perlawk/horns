@@ -22,22 +22,30 @@ void test_code(char *code, node *result) {
 
 void test() {
 	test_code("VERSION", node_str(VERSION));
+	test_code("PLATFORM", node_str(PLATFORM));
+	test_code("ARCH", node_str(ARCH));
+	test_code("COPYRIGHT", node_str(COPYRIGHT));
+
 	test_code("\'()", node_empty_list());
 	test_code("(quote)", node_empty_list());
+
 	test_code("(+ 1 2)", node_num(3));
 	test_code("(- 9 5)", node_num(4));
 	test_code("(* 1 5)", node_num(5));
 	test_code("(/ 12 2)", node_num(6));
 	test_code("(% 7 8)", node_num(7));
 	test_code("(+ 1.5 1.5)", node_num(3));
+
 	test_code("1e+300", node_num(1e+300));
 	test_code("(string 1e+300)", node_str("1e+300"));
+
 	test_code("(** 2 3 2)", node_num(64));
 	test_code("(sqrt 4)", node_num(2));
 	test_code("(sin (/ pi 2))", node_num(1));
 	test_code("(cos pi)", node_num(-1));
 	test_code("(ln e)", node_num(1));
 	test_code("(log 100)", node_num(2));
+
 	test_code("(not true)", node_nil());
 	test_code("(not nil)", node_true());
 	test_code("(and true true)", node_true());

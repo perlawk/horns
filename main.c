@@ -33,7 +33,7 @@ void usage(char *program) {
 
 char *banner() {
 	char *result=alloc_string(strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6);
-	sprintf(result, "Horns v%s %s %s", VERSION, ARCH, COPYRIGHT);
+	sprintf(result, "Horns v%s %s %s %s", VERSION, PLATFORM, ARCH, COPYRIGHT);
 	return result;
 }
 

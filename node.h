@@ -33,14 +33,21 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define streq(a, b) strcmp(a, b) == 0
 #define alloc_string(len) (char *) calloc(len+1, sizeof(char*))
 
-#define VERSION "0.0.4"
-#define COPYRIGHT "(c) 2010 Andrew Pennebaker www.yellosoft.us"
+#define VERSION "0.0.5"
+
+#ifdef __MINGW32__
+	#define PLATFORM "Windows"
+#else
+	#define PLATFORM "Unix"
+#endif
 
 #ifdef __x86_64__
-	#define ARCH "64bit"
+	#define ARCH "x64"
 #else
-	#define ARCH "32bit"
+	#define ARCH "x86"
 #endif
+
+#define COPYRIGHT "(c) 2010 Andrew Pennebaker www.yellosoft.us"
 
 #define HOW_TO_EXIT "Press Control-C to exit."
 #define PROMPT "> "
