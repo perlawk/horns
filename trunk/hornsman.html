@@ -97,10 +97,10 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <div class="alert">Alert: Horns is very new and prone to segmentation faults. There is no garbage collection available. Do not use Horns in critical applications.</div>
 <p>Horns is a minimal Lisp implementation. Its primary goal is to manipulate <tt>lambda</tt> expressions in an interpretive environment.</p>
 <p>Horns is extremely regular and therefore (i) easy to parse, (ii) easy to debug, and (iii) easy to learn. The grammar is an <a href="http://en.wikipedia.org/wiki/LL_parser">LL(1)</a> based on S-expressions as specified in <tt>parse.c</tt>. Unlike C++, Horns is portable, powerful, plain, plastic, precise, petite, polite and people-friendly, and pointer-free.</p>
-<p>Horns is fun. It acts as Polish calculator, shell script, and Lisp primer.</p>
+<p>Horns is fun. It acts as calculator, shell script, and Lisp primer.</p>
 
 <h1><a name="news">News</a></h1>
-<p>Version 0.0.4 - Removed memory leaks. Removed redundant <tt>list</tt> function. Added bitwise operators. New recursive descent parser.</p>
+<p>Version 0.0.4 - Removed memory leaks. Removed <tt>list</tt>, added <tt>quote</tt>. Added bitwise operators. New recursive descent parser.</p>
 <p>Version 0.0.3 - Portable version created. Added control functions. Added math functions. Added expression mode.</p>
 <p>Version 0.0.2 - Installers available for Mac, Windows, and Linux.</p>
 <p>Version 0.0.1 - Lambda works!</p>
@@ -108,9 +108,9 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <h1><a name="get-it">Get it</a></h1>
 <h2><a name="reqs">Requirements</a></h2>
 <ul>
-	<li>Mac OS X 10.5+ 64bit</li>
-	<li>Windows 2000/XP/Vista/7 32bit</li>
-	<li>Linux with libreadline6 32bit</li>
+	<li>Mac OS X 10.5+ x86/x64</li>
+	<li>Windows 2000/XP/Vista/7 x86</li>
+	<li>Linux with libreadline6 x86/x64</li>
 </ul>
 <h2><a name="download">Download</a></h2>
 <p>Binary and source downloads are available at <a href="http://code.google.com/p/horns">http://code.google.com/p/horns</a>.</p>
@@ -319,13 +319,13 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 </ul>
 
 <h3><a name="lists">Lists</a></h3>
-<p>A sequence of objects surrounded by parentheses.</p>
+<p>A sequence of objects surrounded by <a href="#quote">quoted</a> parentheses.</p>
 <ul>
-	<li><tt>()</tt></li>
-	<li><tt>(1 2 3)</tt></li>
-	<li><tt>("a" "b" "c")</tt></li>
-	<li><tt>(0 "zero" zero 'zero)</tt></li>
-	<li><tt>((1 2 3) (4 5 6) (7 8 9))</tt></li>
+	<li><tt>'()</tt></li>
+	<li><tt>'(1 2 3)</tt></li>
+	<li><tt>'("a" "b" "c")</tt></li>
+	<li><tt>'(0 "zero" zero 'zero)</tt></li>
+	<li><tt>'((1 2 3) (4 5 6) (7 8 9))</tt></li>
 </ul>
 <p>Associated functions:</p>
 <ul class="inline-list">
@@ -363,8 +363,8 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 <h4>Hashes</h4>
 <p>Hashes are lists which contain two elements: a list of keys and a list of values.</p>
 <ul>
-	<li><tt>(hash ("a" "b") (1 2))</tt></li>
-	<li><tt>(hash ('alpha 'beta 'gamma) ("Hoo-" "Haa-" "HOO!"))</tt></li>
+	<li><tt>(hash '("a" "b") '(1 2))</tt></li>
+	<li><tt>(hash '('alpha 'beta 'gamma) '("Hoo-" "Haa-" "HOO!"))</tt></li>
 </ul>
 <p>Associated functions:</p>
 <ul class="inline-list">
@@ -406,7 +406,7 @@ body { font-family: Optima, Georgia, Times New Roman, Times, serif; color: #4040
 
 e => 2.71828
 
-VERSION => "0.0.2"
+VERSION => "0.0.4"
 
 ARGV is the list of command line arguments given to a script.</pre>
 
@@ -416,6 +416,7 @@ ARGV is the list of command line arguments given to a script.</pre>
 <h3><a name="destructive">Destructive functions</a></h3>
 <div class="warning">Warning: The following functions may alter their parameters or data elsewhere in a program.</div>
 <ul class="inline-list">
+	<li><a href="#env">env</a></li>
 	<li><a href="#pop">pop</a></li>
 	<li><a href="#push">push</a></li>
 	<li><a href="#set">set</a></li>
@@ -598,9 +599,9 @@ ARGV is the list of command line arguments given to a script.</pre>
 <p>For lists, appends obj-2. For strings, concatenates str-1 and str-2. Returns the result.</p>
 <p>Complement of <a href="#prepend">prepend</a>.</p>
 <div class="example">Examples:</div>
-<pre>(append () 1) => (1)
+<pre>(append '() 1) => (1)
 
-(append (1 2) 3) => (1 2 3)
+(append '(1 2) 3) => (1 2 3)
 
 (append "ca" "t") => "cat"</pre>
 
@@ -610,7 +611,7 @@ ARGV is the list of command line arguments given to a script.</pre>
 <p>If num-1 is negative, consider it a right-to-left index. Returns the element or string at num-1. If num-1 is out of bounds, return <tt>nil</tt>.</p>
 <p>Complement of <a href="#index">index</a>.</p>
 <div class="example">Examples:</div>
-<pre>(at (1 2 3) 0) => 1
+<pre>(at '(1 2 3) 0) => 1
 
 (at "cat" 0) => "c"</pre>
 
@@ -619,7 +620,7 @@ ARGV is the list of command line arguments given to a script.</pre>
 <p>If obj-1 is not a list, returns <tt>true</tt>. Otherwise, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#is_list">list?</a>.</p>
 <div class="example">Examples:</div>
-<pre>(atom? (1 2 3)) => nil
+<pre>(atom? '(1 2 3)) => nil
 
 (atom? 1) => true
 
@@ -638,11 +639,11 @@ ARGV is the list of command line arguments given to a script.</pre>
 <div class="syntax">(cat str-1 str-2)</div>
 <p>Concatenates lists or strings together.</p>
 <div class="example">Examples:</div>
-<pre>(cat (1) (2) (3)) => (1 2 3)
+<pre>(cat '(1) '(2) '(3)) => (1 2 3)
 
-(cat () (1 2) 3)) => (1 2 3)
+(cat '() '(1 2) 3)) => (1 2 3)
 
-(cat (1 2) (3) ()) => (1 2 3)
+(cat '(1 2) '(3) ()) => (1 2 3)
 
 (cat "c" "a" "t") => "cat"
 
@@ -708,7 +709,7 @@ ARGV is the list of command line arguments given to a script.</pre>
 <div class="example">Examples:</div>
 <pre>(copy nil) => nil
 
-(copy (1 2 3)) => (1 2 3)
+(copy '(1 2 3)) => (1 2 3)
 
 (copy "cat") => "cat"</pre>
 
@@ -725,11 +726,11 @@ ARGV is the list of command line arguments given to a script.</pre>
 <div class="syntax">(count list-1 obj-1)</div>
 <p>Returns the number of occurences of obj-1 in list-1.</p>
 <div class="example">Examples:</div>
-<pre>(count (1 2 3) 1) => 1
+<pre>(count '(1 2 3) 1) => 1
 
-(count (1 1 1) 1) => 3
+(count '(1 1 1) 1) => 3
 
-(count (1 2 3) 4) => 0</pre>
+(count '(1 2 3) 4) => 0</pre>
 
 <div class="function"><a name="def">def</a></div>
 <div class="syntax">(def (name arg-1 arg-2 arg-3...) body)</div>
@@ -746,11 +747,11 @@ ARGV is the list of command line arguments given to a script.</pre>
 <div class="syntax">(empty? str-1)</div>
 <p>Returns <tt>true</tt> if list-1 has no elements or str-1 has no characters. Otherwise returns <tt>nil</tt>.</p>
 <div class="example">Examples:</div>
-<pre>(empty? ()) => true
+<pre>(empty? '()) => true
 
 (empty? "") => true
 
-(empty? (1)) => nil
+(empty? '(1)) => nil
 
 (empty? "a") => nil</pre>
 
@@ -776,6 +777,19 @@ ARGV is the list of command line arguments given to a script.</pre>
 (env "COOLNAME" "Bobby") => "Bobby"
 
 (env "COOLNAME" "red=blue") => "red=blue"</pre>
+
+<div class="function"><a name="eval">eval</a></div>
+<div class="syntax">(eval [obj])</div>
+<p>Evaluates the object.</p>
+<p>Complement of <a href="#quote">quote</a>.</p>
+<div class="example">Examples:</div>
+<pre>(eval) => nil
+
+(eval '(+ 1 1)) => 2
+
+(set 'calculation '(+ x 2)) => (+ x 2)
+(set 'x 2) => 2
+(eval calculation) => 4</pre>
 
 <div class="function"><a name="exec">exec</a></div>
 <div class="syntax">(exec command)</div>
@@ -810,11 +824,11 @@ hi
 <p>Returns the first element of a list or the first character of a string. If the parameter is empty, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#last">last</a> and <a href="#rest">rest</a>.</p>
 <div class="example">Examples:</div>
-<pre>(first (1 2 3)) => 1
+<pre>(first '(1 2 3)) => 1
 
 (first "cat") => "c"
 
-(first ()) => nil
+(first '()) => nil
 
 (first "") => nil</pre>
 
@@ -844,22 +858,22 @@ hi
 <div class="syntax">(hash key-list val-list)</div>
 <p>Returns a list containing the given keys and values.</p>
 <div class="example">Examples:</div>
-<pre>(hash ("a" "b") (1 2)) => (("a" "b") (1 2))</pre>
+<pre>(hash '("a" "b") '(1 2)) => (("a" "b") (1 2))</pre>
 
 <div class="function"><a name="is_hash">hash?</a></div>
 <div class="syntax">(hash? obj-1)</div>
 <p>Returns <tt>true</tt> if obj-1 is a list containing the a list of keys and values. Otherwise, returns <tt>nil</tt>.</p>
 <div class="example">Examples:</div>
-<pre>(hash? (("a" "b") (1 2)) => true
+<pre>(hash? '(("a" "b") (1 2))) => true
 
-(hash? ("a" "b")) => nil</pre>
+(hash? '("a" "b")) => nil</pre>
 
 <div class="function"><a name="hash-get">hash-get</a></div>
 <div class="syntax">(hash-get hash-1 key-1)</div>
 <p>Returns the value associated with key-1 in hash-1. If there is no value, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#hash-set">hash-set</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'h (hash ("a" "b") (1 2)))
+<pre>(set 'h (hash '("a" "b") '(1 2)))
 (hash-get h "a") => 1
 (hash-get h "b") => 2</pre>
 
@@ -868,7 +882,7 @@ hi
 <p>Returns the key list contained in hash-1.</p>
 <p>Complement of <a href="#hash-values">hash-values</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'h (hash ("a" "b") (1 2)))
+<pre>(set 'h (hash '("a" "b") '(1 2)))
 (hash-keys h) => ("a" "b")</pre>
 
 <div class="function"><a name="hash-set">hash-set</a></div>
@@ -876,7 +890,7 @@ hi
 <p>Returns the value associated with key-1 in hash-1. If there is no value, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#hash-set">hash-set</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'h (hash ("a" "b") (1 2)))
+<pre>(set 'h (hash '("a" "b") '(1 2)))
 (hash-get h "a") => 1
 (hash-get h "b") => 2</pre>
 
@@ -885,7 +899,7 @@ hi
 <p>Returns the value list contained in hash-1.</p>
 <p>Complement of <a href="#hash-keys">hash-keys</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'h (hash ("a" "b") (1 2)))
+<pre>(set 'h (hash '("a" "b") '(1 2)))
 (hash-values h) => (1 2)</pre>
 
 <div class="function"><a name="if">if</a></div>
@@ -906,11 +920,11 @@ hi
 <div class="syntax">(in? str-1 str-2)</div>
 <p>Returns <tt>true</tt> if the object is in the list or the substring is in the string. Otherwise, returns <tt>nil</tt>.</p>
 <div class="example">Examples:</div>
-<pre>(in? (1 2 3) 1) => true
+<pre>(in? '(1 2 3) 1) => true
 
 (in? "cat" "c") => true
 
-(in? (1 2 3) 4) => nil
+(in? '(1 2 3) 4) => nil
 
 (in? "cat" "D") => nil</pre>
 
@@ -920,11 +934,11 @@ hi
 <p>Locates the object in a list or the substring in a string and returns the location. If the object or substring is not found, returns -1.</p>
 <p>Complement of <a href="#at">at</a>.</p>
 <div class="example">Examples:</div>
-<pre>(index (1 2 3) 1) => 0
+<pre>(index '(1 2 3) 1) => 0
 
 (index "cat" "c") => 0
 
-(index (1 2 3) 4) => -1
+(index '(1 2 3) 4) => -1
 
 (index "cat" "dog") => -1</pre>
 
@@ -941,15 +955,15 @@ Name: Bob
 <p>Joins the strings in list-1 with the separator.</p>
 <p>Complement of <a href="#split">split</a>.</p>
 <div class="example">Examples:</div>
-<pre>(join ("a" "b" "c") " ") => "a b c"
+<pre>(join '("a" "b" "c") " ") => "a b c"
 
-(join ("a" "b" "c") ", ") => "a, b, c"
+(join '("a" "b" "c") ", ") => "a, b, c"
 
-(join ("a" "b" "c") "") => "abc"
+(join '("a" "b" "c") "") => "abc"
 
-(join ("a") " ") => "a"
+(join '("a") " ") => "a"
 
-(join () " ") => ""</pre>
+(join '() " ") => ""</pre>
 
 <div class="function"><a name="lambda">lambda</a></div>
 <div class="syntax">(lambda id-list body)</div>
@@ -969,11 +983,11 @@ Name: Bob
 <p>Returns the last element of a list or the last character of a string. If the parameter is empty, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#first">first</a> and <a href="#rest">rest</a>.</p>
 <div class="example">Examples:</div>
-<pre>(last (1 2 3)) => 3
+<pre>(last '(1 2 3)) => 3
 
 (last "cat") => "t"
 
-(last ()) => nil
+(last '()) => nil
 
 (last "") => nil</pre>
 
@@ -995,11 +1009,11 @@ m/f
 <div class="syntax">(length obj-1)</div>
 <p>Returns the number of elements in a list or the number of characters in a string. If the object is not a list or a string, returns <tt>0</tt>.</p>
 <div class="example">Examples:</div>
-<pre>(length (1 2 3 4)) => 4
+<pre>(length '(1 2 3 4)) => 4
 
 (length "abcdef") => 6
 
-(length ()) => 0
+(length '()) => 0
 
 (length "") => 0
 
@@ -1012,7 +1026,7 @@ m/f
 <p>Returns <tt>true</tt> if obj-1 is a list. Otherwise, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#is_atom">atom?</a>.</p>
 <div class="example">Examples:</div>
-<pre>(list? (1 2 3)) => true
+<pre>(list? '(1 2 3)) => true
 
 (list? 1) => nil
 
@@ -1068,7 +1082,7 @@ m/f
 <p>Removes then returns the first element of list-1.</p>
 <p>Complement of <a href="#push">push</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'a (1 2 3)) => (1 2 3)
+<pre>(set 'a '(1 2 3)) => (1 2 3)
 (pop a) => 1
 a => (2 3)</pre>
 
@@ -1078,9 +1092,9 @@ a => (2 3)</pre>
 <p>For lists, prepends obj-1. For strings, concatenates str-1 and str-2. Returns the result.</p>
 <p>Complement of <a href="#append">append</a>.</p>
 <div class="example">Examples:</div>
-<pre>(prepend () 1) => (1)
+<pre>(prepend '() 1) => (1)
 
-(prepend (2 3) 1) => (1 2 3)
+(prepend '(2 3) 1) => (1 2 3)
 
 (prepend "at" "c") => "cat"</pre>
 
@@ -1101,7 +1115,7 @@ I am 5 years old.
 <p>Prepends obj-1 to list-1 then returns list-1.</p>
 <p>Complement of <a href="#pop">pop</a>.</p>
 <div class="example">Examples:</div>
-<pre>(set 'a (2 3)) => (2 3)
+<pre>(set 'a '(2 3)) => (2 3)
 (push a 1) => (1 2 3)
 a => (1 2 3)
 
@@ -1109,17 +1123,37 @@ a => (1 2 3)
 (push b "R") => "Robert"
 b => "Robert"</pre>
 
+<div class="function"><a name="quote">quote</a></div>
+<div class="syntax">'([obj-1 obj-2 obj-3 ...])</div>
+<div class="syntax">(quote [obj-1 obj-2 obj-3 ...])</div>
+<p>Returns the objects as a list without evaluating them.</p>
+<p>Complement of <a href="#eval">eval</a>.</p>
+<div class="example">Examples:</div>
+<pre>'() => nil
+
+(quote) => nil
+
+'(1 2 3) => (1 2 3)
+
+(quote 1 2 3) => (1 2 3)
+
+'(+ 1 1) => (+ 1 1)
+
+'(a) => (a)
+
+(quote a) => (a)</pre>
+
 <div class="function"><a name="rest">rest</a></div>
 <div class="syntax">(rest list-1)</div>
 <div class="syntax">(rest str-1)</div>
 <p>For a list, returns a new list containing every element except the first. For a string, returns a new string containing every character except the first. If the parameter is empty, returns <tt>nil</tt>.</p>
 <p>Complement of <a href="#first">first</a> and <a href="#last">last</a>.</p>
 <div class="example">Examples:</div>
-<pre>(rest (1 2 3)) => (2 3)
+<pre>(rest '(1 2 3)) => (2 3)
 
 (rest "cat") => "at"
 
-(rest ()) => nil
+(rest '()) => nil
 
 (rest "") => nil</pre>
 
@@ -1175,7 +1209,7 @@ b => "Robert"</pre>
 <div class="example">Examples:</div>
 <pre>(string 1) => "1"
 
-(string (1 2 3)) => "(1 2 3)"
+(string '(1 2 3)) => "(1 2 3)"
 
 (string -2e+200) => "-2e+200"
 

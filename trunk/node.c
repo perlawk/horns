@@ -825,18 +825,16 @@ node *node_do(node *args) {
 	// pass primitives through
 	if (args->type != LIST_TYPE) return args;
 
-	// pass empty lists through
-	if (node_length(args) < 1) return args;
-
 	node *op=args->first;
 	node *op_args=node_rest(args);
-	node_type t=op->type;
 
 	// retrieve first argument
-	if (t == ID_TYPE) {
-		if (node_id_exists(op)) op=node_get(op);
+	if (op->type == ID_TYPE) {
+		if (node_id_exists(op)) {
+			op=node_get(op);
+		}
 		else {
-			char *op_s=args->first->str;
+			char *op_s=strdup(args->first->str);
 			char *msg=alloc_string(strlen(op_s)+17);
 			sprintf(msg, "unknown function: %s", op_s);
 			free(op_s);
@@ -849,15 +847,12 @@ node *node_do(node *args) {
 
 	// construct lambda
 	if (op->type == LIST_TYPE) {
-		// empty list
-		if (op->first->type == TAIL_TYPE) return args;
-
 		if (op->first->type == ID_TYPE) {
 			if (streq(op->first->str, "lambda")) {
 				op=node_do(op);
 			}
 			else {
-				char *op_s=op->first->str;
+				char *op_s=strdup(op->first->str);
 				char *msg=alloc_string(strlen(op_s)+17);
 				sprintf(msg, "unknown function: %s", op_s);
 				free(op_s);
@@ -873,16 +868,14 @@ node *node_do(node *args) {
 		}
 	}
 
-	t=op->type;
-
-	switch(t) {
+	switch(op->type) {
 		case BUILTIN_TYPE:
 			return op->f(op_args);
 		case LAMBDA_TYPE:
 			return node_do_lambda(op, op_args);
-		// pass data through
 		default:
-			return args;
+			yyerror("error: lists must be quoted.");
+			return node_nil();
 	}
 }
 

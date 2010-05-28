@@ -25,6 +25,8 @@ id {id_char}+{D}*
 
 symbol "\'"{id}
 
+quote "\'"
+
 string \"(\\.|[^\\"])*\"
 
 lparen "("
@@ -44,6 +46,8 @@ bad .
 {id} { yylval=node_id(yytext); return ID_TOK; }
 
 {symbol} { yylval=node_sym(yytext); return SYMBOL_TOK; }
+
+{quote} { yylval=node_id("quote"); return QUOTE_TOK; }
 
 {string} { yylval=node_str(from_literal(yytext)); return STRING_TOK; }
 

@@ -64,6 +64,8 @@ node *node_split(char *str, char *sep);
 node *node_join(node *p, node *e);
 node *f_split(node *args);
 node *f_join(node *args);
+node *f_quote(node *args);
+node *f_eval(node *args);
 node *node_env(node *args);
 node *node_exec(node *args);
 node *node_if(node *args);
