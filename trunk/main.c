@@ -22,7 +22,7 @@ mode_type MODE;
 int SUCCESSES;
 int FAILURES;
 
-void usage(char *program) {
+static void usage(char *program) {
 	printf("Usage: %s [script]\n", program);
 	printf("-e <exp> evaluate\n");
 	printf("-h help\n");
@@ -31,13 +31,22 @@ void usage(char *program) {
 	exit(0);
 }
 
-char *banner() {
+static char *banner() {
 	char *result=alloc_string(strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6);
-	sprintf(result, "Horns v%s %s %s %s", VERSION, PLATFORM, ARCH, COPYRIGHT);
+	(void) snprintf(result, strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6, "Horns v%s %s %s %s", VERSION, PLATFORM, ARCH, COPYRIGHT);
 	return result;
 }
 
 int main(int argc, char **argv) {
+	char *line, *script_name, *exp;
+
+	char c;
+	int i;
+
+	FILE *script;
+
+	node *ARGV;
+
 	horns_init();
 
 	NOTHING_TO_DO=0;
@@ -47,16 +56,14 @@ int main(int argc, char **argv) {
 	SUCCESSES=0;
 	FAILURES=0;
 
-	char *line=alloc_string(MAX_LINE);
+	line=alloc_string(MAX_LINE);
 
-	char *script_name="", *exp="";
-	FILE *script;
+	script_name="";
+	exp="";
 
 	opterr=0;
 
-	char c;
-
-	while ((c=getopt(argc, argv, "htve:")) != -1) {
+	while ((int) (c= (char) getopt(argc, argv, "htve:")) != -1) {
 		switch(c) {
 			case 'h':
 				MODE=HELP_MODE;
@@ -72,7 +79,7 @@ int main(int argc, char **argv) {
 				exp=optarg;
 				break;
 			case '?':
-				if (optopt == 'e') usage(argv[0]);
+				if ((char) optopt == 'e') usage(argv[0]);
 		}
 	}
 
@@ -81,14 +88,13 @@ int main(int argc, char **argv) {
 		script_name=argv[optind++];
 	}
 
-	node *ARGV=node_empty_list();
+	ARGV=node_empty_list();
 
-	int i;
 	for (i=optind; i < argc; i++) {
 		ARGV=node_append(ARGV, node_str(argv[i]));
 	}
 
-	node_set(node_sym("\'ARGV"), ARGV);
+	(void) node_set(node_sym("\'ARGV"), ARGV);
 
 	switch(MODE) {
 		case HELP_MODE:
@@ -98,10 +104,10 @@ int main(int argc, char **argv) {
 			exit(0);
 		case TEST_MODE:
 			test();
+			exit(0);
 		case EXP_MODE:
-			yy_scan_string(exp);
+			(void) yy_scan_string(exp);
 			parse();
-			//yyparse();
 
 			if (!NOTHING_TO_DO) printf("%s\n", node_string(NODE_RESULT, 1));
 
@@ -115,15 +121,16 @@ int main(int argc, char **argv) {
 			while ((line=fgets(line, MAX_LINE, stdin)) != NULL) {
 			#else
 			while ((line=readline(PROMPT)) != NULL) {
-				if (strlen(line)>0) add_history(line);
+				if (strlen(line)>0) {
+					(void) add_history(line);
+				}
 			#endif
 
 				NOTHING_TO_DO=0;
 
-				if (!streq(line, "\n")) {
-					yy_scan_string(line);
+				if (!(bool) streq(line, "\n")) {
+					(void) yy_scan_string(line);
 					parse();
-					//yyparse();
 
 					if (!NOTHING_TO_DO) printf("=>%s\n", node_string(NODE_RESULT, 1));
 				}
@@ -143,9 +150,11 @@ int main(int argc, char **argv) {
 
 			yyin=script;
 			parse();
-			//yyparse();
-			fclose(yyin);
+			(void) fclose(yyin);
 	}
+
+	free(ARGV);
+	free(line);
 
 	return 0;
 }

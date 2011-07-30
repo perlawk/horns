@@ -53,6 +53,18 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define PROMPT "> "
 #define MAX_LINE 2048
 
+#ifndef bool
+	#define bool int
+#endif
+
+#ifndef true
+	#define true 1
+#endif
+
+#ifndef false
+	#define false 0
+#endif
+
 typedef enum {
 	TAIL_TYPE,
 	NIL_TYPE,
@@ -81,7 +93,7 @@ typedef enum { HELP_MODE, VERSION_MODE, TEST_MODE, INTERACTIVE_MODE, SCRIPT_MODE
 extern node *TAIL;
 extern node *SYM_STACK;
 extern node *NODE_RESULT;
-extern int NOTHING_TO_DO;
+extern bool NOTHING_TO_DO;
 
 int yyerror(char *s);
 void node_init();
