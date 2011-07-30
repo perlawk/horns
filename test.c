@@ -10,7 +10,7 @@ extern int FAILURES;
 extern int yy_scan_string(char *);
 
 void test_code(char *code, node *result) {
-	yy_scan_string(code);
+	(void) yy_scan_string(code);
 	parse();
 
 	if (node_cmp(NODE_RESULT, result) == 0) SUCCESSES++;
