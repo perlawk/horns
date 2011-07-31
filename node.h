@@ -31,7 +31,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <string.h>
 #define streq(a, b) strcmp(a, b) == 0
-#define alloc_string(len) (char *) calloc(len+1, sizeof(char*))
 
 #define VERSION "0.0.5"
 
@@ -53,9 +52,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define PROMPT "> "
 #define MAX_LINE 2048
 
-#ifndef bool
-	#define bool int
-#endif
+typedef int bool;
 
 #ifndef true
 	#define true 1
@@ -95,16 +92,17 @@ extern node *SYM_STACK;
 extern node *NODE_RESULT;
 extern bool NOTHING_TO_DO;
 
+char *alloc_string(int len);
 int yyerror(char *s);
 void node_init();
 node *node_new();
-void node_del(node *p);
+// void node_del(node *p);
 node *node_nil();
 node *node_true();
 node *node_num(double d);
 node *node_sym(char *s);
 node *node_id(char *s);
-int is_special_char(char c);
+bool is_special_char(char c);
 char unescape_special(char c);
 char escape_special(char c);
 char *from_literal(char *s);
@@ -122,7 +120,7 @@ node *node_prepend(node *p, node *e);
 node *node_cat(node *args);
 node *node_id2sym(node *s);
 #define node_sym2id(S) node_id((char *) (S->str+1))
-int node_id_exists(node *s);
+bool node_id_exists(node *s);
 node *node_get(node *s);
 node *node_set(node *s, node *v);
 node *node_first(node *args);

@@ -20,4 +20,7 @@
 
 (print f)
 
-(+ 1 z) ; should get error "id is not defined (line 21)"
+(+ 1 z)
+
+; error: id z is not defined (line 24)
+; error: + used improperly. check reference manual (line 24)

@@ -1,3 +1,4 @@
+#include <gc.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -32,8 +33,10 @@ static void usage(char *program) {
 }
 
 static char *banner() {
-	char *result=alloc_string(strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6);
-	(void) snprintf(result, strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6, "Horns v%s %s %s %s", VERSION, PLATFORM, ARCH, COPYRIGHT);
+	int size = (int) (strlen(VERSION)+strlen(ARCH)+strlen(COPYRIGHT)+6);
+
+	char *result=alloc_string(size);
+	(void) snprintf(result, (size_t) size, "Horns v%s %s %s %s", VERSION, PLATFORM, ARCH, COPYRIGHT);
 	return result;
 }
 
@@ -153,8 +156,8 @@ int main(int argc, char **argv) {
 			(void) fclose(yyin);
 	}
 
-	free(ARGV);
-	free(line);
+	// free(ARGV);
+	// free(line);
 
 	return 0;
 }

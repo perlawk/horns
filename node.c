@@ -1,29 +1,43 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <gc.h>
 #include "node.h"
 
 node *TAIL;
 node *SYM_STACK;
 node *NODE_RESULT;
-int NOTHING_TO_DO;
+bool NOTHING_TO_DO;
 extern int yylineno;
 extern mode_type MODE;
 
-int yyerror(char *s) {
-	if (streq(s, "syntax error")) s="syntax error.";
+char *alloc_string(int len) {
+	return (char *) GC_MALLOC(sizeof(char)*(len+1));
+}
 
-	if (MODE != TEST_MODE) {
-		if (MODE == SCRIPT_MODE) fprintf(stderr, "%s (line %d)\n", s, yylineno);
-		else fprintf(stderr, "%s\n", s);
+int yyerror(char *s) {
+	char *msg;
+
+	if (streq(s, "syntax error")) {
+		msg=strdup("syntax error.");
+	}
+	else {
+		msg = strdup(s);
 	}
 
-	NOTHING_TO_DO=1;
+	if (MODE != TEST_MODE) {
+		if (MODE == SCRIPT_MODE) fprintf(stderr, "%s (line %d)\n", msg, yylineno);
+		else fprintf(stderr, "%s\n", msg);
+	}
+
+	NOTHING_TO_DO=true;
 
 	return 0;
 }
 
 void node_init() {
-	TAIL=(node *) malloc(sizeof(node));
+	GC_INIT();
+
+	TAIL=(node *) GC_MALLOC(sizeof(node));
 	TAIL->type=TAIL_TYPE;
 
 	SYM_STACK=node_empty_list();
@@ -33,39 +47,39 @@ void node_init() {
 }
 
 node *node_new() {
-	node *temp=(node *) malloc(NODE_SIZE);
+	node *temp=(node *) GC_MALLOC(NODE_SIZE);
 
 	if (temp == NULL) {
-		yyerror("error: out of memory.");
-		exit(1);
+		(void) yyerror("error: out of memory.");
+		exit(0);
 	}
 
 	return temp;
 }
 
-void node_del(node *p) {
-	switch(p->type) {
-		case TAIL_TYPE:
-		case BUILTIN_TYPE:
-			return;
-		case NIL_TYPE:
-		case TRUE_TYPE:
-		case NUMBER_TYPE:
-			break;
-		case SYMBOL_TYPE:
-		case ID_TYPE:
-		case STRING_TYPE:
-			free(p->str);
-			break;
-		case LIST_TYPE:
-		case LAMBDA_TYPE:
-			node_del(p->first);
-			node_del(p->rest);
-			break;
-	}
-
-	free(p);
-}
+// void node_del(node *p) {
+// 	switch(p->type) {
+// 		case TAIL_TYPE:
+// 		case BUILTIN_TYPE:
+// 			return;
+// 		case NIL_TYPE:
+// 		case TRUE_TYPE:
+// 		case NUMBER_TYPE:
+// 			break;
+// 		case SYMBOL_TYPE:
+// 		case ID_TYPE:
+// 		case STRING_TYPE:
+// 			// free(p->str);
+// 			break;
+// 		case LIST_TYPE:
+// 		case LAMBDA_TYPE:
+// 			node_del(p->first);
+// 			node_del(p->rest);
+// 			break;
+// 	}
+// 
+// 	// free(p);
+// }
 
 node *node_nil() {
 	node *p=node_new();
@@ -100,19 +114,19 @@ node *node_id(char *s) {
 	return p;
 }
 
-int is_special_char(char c) {
+bool is_special_char(char c) {
 	switch(c) {
-		case '\b': return 1;
-		case '\t': return 1;
-		case '\n': return 1;
-		case '\v': return 1;
-		case '\f': return 1;
-		case '\r': return 1;
-		case '\a': return 1;
-		case '\'': return 1;
-		case '\"': return 1;
-		case '\\': return 1;
-		default: return 0;
+		case '\b': return true;
+		case '\t': return true;
+		case '\n': return true;
+		case '\v': return true;
+		case '\f': return true;
+		case '\r': return true;
+		case '\a': return true;
+		case '\'': return true;
+		case '\"': return true;
+		case '\\': return true;
+		default: return false;
 	}
 }
 
@@ -144,11 +158,11 @@ char escape_special(char c) {
 }
 
 char *from_literal(char *s) {
-	int len=strlen(s);
+	int len=(int) strlen(s);
 
 	char *result=alloc_string(len-2);
 
-	int in_escape=0;
+	bool in_escape=false;
 
 	int i, j;
 	for (i=0, j=1; j<len-1; j++) { /* strip outer quotes */
@@ -159,7 +173,7 @@ char *from_literal(char *s) {
 			in_escape=0;
 		}
 		else if (c=='\\') {
-			in_escape=1;
+			in_escape=true;
 		}
 		else {
 			result[i++]=c;
@@ -170,14 +184,15 @@ char *from_literal(char *s) {
 }
 
 char *to_literal(char *s) {
-	int len=strlen(s);
+	int len=(int) strlen(s);
+
+	int i, j;
 
 	char *result=alloc_string(len*2+2); /* expect all special characters */
 
 	/* add beginning quote */
 	result[0]='\"';
 
-	int i, j;
 	for (i=1, j=0; j<len; j++) {
 		char c=s[j];
 
@@ -233,15 +248,20 @@ node *node_copy(node *p) {
 }
 
 int node_length(node *p) {
-	if (p->type == STRING_TYPE) return strlen(p->str);
+	int len;
+
+	node *temp, *rest;
+
+	if (p->type == STRING_TYPE) return (int) strlen(p->str);
 
 	if (node_is_atom(p)) return 0;
 
 	if (p->first->type == TAIL_TYPE) return 0;
 
-	int len=1;
-	node *temp=p;
-	node *rest=temp->rest;
+	len=1;
+	temp=p;
+	rest=temp->rest;
+
 	while (rest->type != TAIL_TYPE) {
 		temp=rest;
 		rest=temp->rest;
@@ -252,15 +272,15 @@ int node_length(node *p) {
 }
 
 int node_cmp(node *a, node *b) {
+	int diff;
+	double doubleDiff;
+	bool aExists, bExists;
+	node *aTemp, *bTemp;
+
 	if (a->type == ID_TYPE && node_id_exists(a)) a=node_get(a);
 	if (b->type == ID_TYPE && node_id_exists(b)) b=node_get(b);
 
 	if (a->type != b->type) return a->type - b->type;
-
-	int diff;
-	double doubleDiff;
-	int aExists, bExists;
-	node *aTemp, *bTemp;
 
 	switch(a->type) {
 		case NIL_TYPE:
@@ -324,26 +344,29 @@ node *args_append(node *arg1, node *arg2) {
 }
 
 node *node_append(node *p, node *e) {
+	node *new, *temp, *rest;
+
 	if (e->type == TAIL_TYPE) return p;
 
 	if (p->type == STRING_TYPE && e->type == STRING_TYPE) {
 		char *buffer=alloc_string(strlen(p->str)+strlen(e->str));
 		strcat(buffer, p->str);
 		strcat(buffer, e->str);
-		node *temp=node_str(buffer);
-		free(buffer);
+		temp=node_str(buffer);
+		// free(buffer);
 		return temp;
 	}
 	else if (p->type == LIST_TYPE) {
 		if (p->first->type == TAIL_TYPE) {
-			node *new=node_empty_list();
+			new=node_empty_list();
 			new->first=e;
 			return new;
 		}
 
-		node *new=node_copy(p);
-		node *temp=new;
-		node *rest=temp->rest;
+		new=node_copy(p);
+		temp=new;
+		rest=temp->rest;
+
 		while (rest->type != TAIL_TYPE) {
 			temp=rest;
 			rest=temp->rest;
@@ -427,35 +450,44 @@ node *node_cat(node *args) {
 }
 
 node *node_id2sym(node *s) {
+	node *temp;
+
 	char *buffer=alloc_string(strlen(s->str)+1);
 	strcat(buffer, "\'");
 	strcat(buffer, s->str);
-	node *temp=node_sym(buffer);
-	free(buffer);
+	temp=node_sym(buffer);
+	// free(buffer);
 	return temp;
 }
 
-int node_id_exists(node *s) {
-	if (s->type != ID_TYPE) return 0;
+bool node_id_exists(node *s) {
+	node *sym, *level;
 
-	node *sym=node_id2sym(s);
+	if (s->type != ID_TYPE) return false;
 
-	node *level=SYM_STACK;
+	sym=node_id2sym(s);
+
+	level=SYM_STACK;
+
 	while (level->type != TAIL_TYPE) {
-		if (node_is_in(level->first->first, sym)) return 1;
+		if (node_is_in(level->first->first, sym)) return true;
 		level=level->rest;
 	}
 
-	return 0;
+	return false;
 }
 
 node *node_get(node *s) {
+	node *sym, *level;
+
+	char *msg;
+
 	// pass through
 	if (s->type != ID_TYPE) return s;
 
-	node *sym=node_id2sym(s);
+	sym=node_id2sym(s);
 
-	node *level=SYM_STACK;
+	level=SYM_STACK;
 	while (level->type != TAIL_TYPE) {
 		if (node_is_in(level->first->first, sym)) {
 			return node_hash_get(level->first, sym);
@@ -464,24 +496,40 @@ node *node_get(node *s) {
 		level=level->rest;
 	}
 
-	char *msg=alloc_string(strlen(s->str)+25);
-	sprintf(msg, "error: id %s is not defined.", s->str);
+	msg=alloc_string(strlen(s->str)+26);
+	(void) snprintf(msg, strlen(s->str)+26, "error: id %s is not defined.", s->str);
 	yyerror(msg);
-	free(msg);
+	// free(msg);
 
 	return node_nil();
 }
 
 node *node_set(node *s, node *v) {
+	char *msg_temp, *msg;
+
+	node *level;
+
 	if (s->type != SYMBOL_TYPE) {
-		char *msg_temp=node_string(s, 0);
-		char *msg=alloc_string(strlen(msg_temp)+45);
+		msg_temp=node_string(s, 0);
+		msg=alloc_string(strlen(msg_temp)+45);
 		sprintf(msg, "error can only map symbols (not %s) to values.", msg_temp);
-		free(msg_temp);
+		// free(msg_temp);
 		yyerror(msg);
-		free(msg);
+		// free(msg);
 
 		return node_nil();
+	}
+
+	// Is the symbol already set in an outer scope?
+
+	level=SYM_STACK;
+	while (level->type != TAIL_TYPE) {
+		if (node_is_in(level->first->first, s)) {
+			level->first = node_hash_set(level->first, s, v);
+			return v;
+		}
+
+		level=level->rest;
 	}
 
 	SYM_STACK->first=node_hash_set(SYM_STACK->first, s, v);
@@ -490,11 +538,13 @@ node *node_set(node *s, node *v) {
 }
 
 node *node_first(node *args) {
+	node *temp;
+
 	if (args->type == STRING_TYPE) {
 		char *buffer=alloc_string(1);
 		buffer[0]=args->str[0];
-		node *temp=node_str(buffer);
-		free(buffer);
+		temp=node_str(buffer);
+		// free(buffer);
 		return temp;
 	}
 	else if (args->type == LIST_TYPE) {
@@ -524,19 +574,22 @@ node *node_rest(node *args) {
 }
 
 node *node_last(node *args) {
+	node *temp, *rest;
+
 	if (args->type == STRING_TYPE) {
 		char *buffer=alloc_string(1);
 		buffer[0]=args->str[strlen(args->str)-1];
 		buffer[1]='\0';
-		node *temp=node_str(buffer);
-		free(buffer);
+		temp=node_str(buffer);
+		// free(buffer);
 		return temp;
 	}
 	else if (args->type == LIST_TYPE) {
 		if (node_length(args)<1) return node_nil();
 
-		node *temp=args;
-		node *rest=temp->rest;
+		temp=args;
+		rest=temp->rest;
+
 		while (rest->type != TAIL_TYPE) {
 			temp=rest;
 			rest=temp->rest;
@@ -550,17 +603,20 @@ node *node_last(node *args) {
 }
 
 int node_index(node *p, node *e) {
+	char *t;
+	int i;
+
 	if (p->type == STRING_TYPE) {
 		if (strlen(e->str) == 0) return -1;
 
-		char *t=strstr(p->str, e->str);
+		t=strstr(p->str, e->str);
 
 		if (t == NULL) return -1;
 
 		return t - p->str;
 	}
 	else if (p->type == LIST_TYPE) {
-		int i=0;
+		i=0;
 
 		while (p->type != TAIL_TYPE) {
 			if (node_cmp(p->first, e) == 0) return i;
@@ -573,11 +629,11 @@ int node_index(node *p, node *e) {
 }
 
 int node_count(node *p, node *e) {
+	int count=0;
+
 	if (p->type != LIST_TYPE) return 0;
 
 	if (node_length(p) == 0) return 0;
-
-	int count=0;
 
 	if (node_cmp(p->first, e) == 0) count++;
 
@@ -600,15 +656,16 @@ node *node_pop(node *p) {
 }
 
 node *node_at(node *p, int index) {
+	int len, i;
+
 	if (p->type != LIST_TYPE) return node_nil();
 
-	int len=node_length(p);
+	len=node_length(p);
 
 	if (index<0) index=len+index;
 
 	if (index < 0 || index >= len) return node_nil();
 
-	int i;
 	for (i=0; i<index; i++) {
 		p=p->rest;
 		if (p->type == TAIL_TYPE) return node_nil();
@@ -625,11 +682,13 @@ node *node_hash(node *k, node *v) {
 }
 
 node *node_hash_get(node *h, node *k) {
+	int index;
+
 	if (h->type == ID_TYPE) h=node_get(h);
 
 	if (h->type == NIL_TYPE) return h;
 
-	int index=node_index(h->first, k);
+	index=node_index(h->first, k);
 
 	if (index == -1) return node_nil();
 
@@ -637,20 +696,24 @@ node *node_hash_get(node *h, node *k) {
 }
 
 node *node_hash_set(node *h, node *k, node *v) {
+	int index;
+
+	node *at, *keys, *values;
+
 	if (h->type == ID_TYPE) h=node_get(h);
 
 	if (h->type == NIL_TYPE) return h;
 
-	int index=node_index(h->first, k);
+	index=node_index(h->first, k);
 
 	if (index == -1) {
-		node *keys=h->first;
-		node *values=h->rest->first;
+		keys=h->first;
+		values=h->rest->first;
 		*keys=*(node_append(keys, k));
 		*values=*(node_append(values, v));
 	}
 	else {
-		node *at=node_hash_get(h, k);
+		at=node_hash_get(h, k);
 		*at=*v;
 	}
 
@@ -673,7 +736,7 @@ char *node_string_join(node *p, char *sep) {
 	buffer=alloc_string(strlen(tempString)+sep_len);
 
 	strcat(buffer, tempString);
-	free(tempString);
+	// free(tempString);
 	strcat(buffer, sep);
 
 	tempNode=p->rest;
@@ -685,9 +748,9 @@ char *node_string_join(node *p, char *sep) {
 
 		buffer=alloc_string(strlen(bufferSave)+strlen(tempString)+sep_len);
 		strcat(buffer, bufferSave);
-		free(bufferSave);
+		// free(bufferSave);
 		strcat(buffer, tempString);
-		free(tempString);
+		// free(tempString);
 		strcat(buffer, sep);
 
 		tempNode=tempNode->rest;
@@ -708,7 +771,7 @@ char *node_string(node *p, int translateIDs) {
 			return strdup("true");
 		case NUMBER_TYPE:
 			buffer=alloc_string(32);
-			sprintf(buffer, "%g", p->n);
+			(void) snprintf(buffer, 32, "%g", p->n);
 			return buffer;
 		case SYMBOL_TYPE:
 			return strdup(p->str);
@@ -728,7 +791,7 @@ char *node_string(node *p, int translateIDs) {
 
 			strcat(buffer, "(");
 			strcat(buffer, tempString);
-			free(tempString);
+			// free(tempString);
 			strcat(buffer, " ");
 
 			tempNode=p->rest;
@@ -740,9 +803,9 @@ char *node_string(node *p, int translateIDs) {
 
 				buffer=alloc_string(strlen(bufferSave)+strlen(tempString)+1);
 				strcat(buffer, bufferSave);
-				free(bufferSave);
+				// free(bufferSave);
 				strcat(buffer, tempString);
-				free(tempString);
+				// free(tempString);
 				strcat(buffer, " ");
 
 				tempNode=tempNode->rest;
@@ -760,10 +823,10 @@ char *node_string(node *p, int translateIDs) {
 			buffer=alloc_string(strlen(tempString)+strlen(tempString2)+10);
 			strcat(buffer, "(lambda ");
 			strcat(buffer, tempString);
-			free(tempString);
+			// free(tempString);
 			strcat(buffer, " ");
 			strcat(buffer, tempString2);
-			free(tempString2);
+			// free(tempString2);
 			strcat(buffer, ")");
 			return buffer;
 		default:
@@ -772,35 +835,42 @@ char *node_string(node *p, int translateIDs) {
 }
 
 node *node_do_lambda(node *l, node *args) {
+	node *vars, *exps, *new_scope, *k, *v, *res;
+
+	int pushed_scope, var_len, arg_len;
+
+	char *msg;
+
 	args=node_do_list(args);
 
-	node *vars=l->first;
-	node *exps=l->rest->first;
+	vars=l->first;
+	exps=l->rest->first;
 
-	int pushed_scope=0;
+	pushed_scope=0;
 
-	int var_len=0;
+	var_len=0;
 	if (vars->type == LIST_TYPE) var_len=node_length(vars);
 
-	int arg_len=0;
+	arg_len=0;
 	if (args->type == LIST_TYPE) arg_len=node_length(args);
 
 	if (var_len != arg_len) {
-		char *msg=alloc_string(40+30);
-		sprintf(msg, "error: this lambda requires %d parameters.", var_len);
+		msg=alloc_string(40+30);
+		(void) snprintf(msg, 40+30, "error: this lambda requires %d parameters.", var_len);
 		yyerror(msg);
-		free(msg);
+		// free(msg);
 		return node_nil();
 	}
 
 	if (args->type == LIST_TYPE) {
 		pushed_scope=1;
 
-		node *new_scope=node_hash(node_empty_list(), node_empty_list());
+		new_scope=node_hash(node_empty_list(), node_empty_list());
 		SYM_STACK=node_push(SYM_STACK, new_scope);
 
 		while (vars->type != TAIL_TYPE) {
-			node *k=vars, *v=args;
+			k=vars;
+			v=args;
 
 			k=node_id2sym(k->first);
 			v=v->first;
@@ -811,7 +881,7 @@ node *node_do_lambda(node *l, node *args) {
 		}
 	}
 
-	node *res=node_last(node_do_list(exps));
+	res=node_last(node_do_list(exps));
 
 	if (pushed_scope) node_pop(SYM_STACK);
 
@@ -819,14 +889,17 @@ node *node_do_lambda(node *l, node *args) {
 }
 
 node *node_do(node *args) {
+	node *op;
+
+	char *op_s, *msg;
+
 	// pass variables through
 	if (args->type == ID_TYPE) return node_get(args);
 
 	// pass primitives through
 	if (args->type != LIST_TYPE) return args;
 
-	node *op=args->first;
-	node *op_args=node_rest(args);
+	op=args->first;
 
 	// retrieve first argument
 	if (op->type == ID_TYPE) {
@@ -834,12 +907,12 @@ node *node_do(node *args) {
 			op=node_get(op);
 		}
 		else {
-			char *op_s=strdup(args->first->str);
-			char *msg=alloc_string(strlen(op_s)+17);
-			sprintf(msg, "unknown function: %s", op_s);
-			free(op_s);
+			op_s=strdup(args->first->str);
+			msg=alloc_string(strlen(op_s)+17);
+			(void) snprintf(msg, strlen(op_s)+17, "unknown function: %s", op_s);
+			// free(op_s);
 			yyerror(msg);
-			free(msg);
+			// free(msg);
 
 			return node_nil();
 		}
@@ -852,12 +925,12 @@ node *node_do(node *args) {
 				op=node_do(op);
 			}
 			else {
-				char *op_s=strdup(op->first->str);
-				char *msg=alloc_string(strlen(op_s)+17);
-				sprintf(msg, "unknown function: %s", op_s);
-				free(op_s);
+				op_s=strdup(op->first->str);
+				msg=alloc_string(strlen(op_s)+17);
+				(void) snprintf(msg, strlen(op_s)+17, "unknown function: %s", op_s);
+				// free(op_s);
 				yyerror(msg);
-				free(msg);
+				// free(msg);
 
 				return node_nil();
 			}
@@ -870,20 +943,22 @@ node *node_do(node *args) {
 
 	switch(op->type) {
 		case BUILTIN_TYPE:
-			return op->f(op_args);
+			return op->f(node_rest(args));
 		case LAMBDA_TYPE:
-			return node_do_lambda(op, op_args);
+			return node_do_lambda(op, node_rest(args));
 		default:
-			yyerror("error: lists must be quoted.");
+			(void) yyerror("error: lists must be quoted.");
 			return node_nil();
 	}
 }
 
 node *node_do_list(node *args) {
+	node *new, *temp;
+
 	if (args->type == NIL_TYPE) return args;
 
-	node *new=node_empty_list();
-	node *temp=args;
+	new=node_empty_list();
+	temp=args;
 	new=node_append(new, node_do(temp->first));
 
 	temp=temp->rest;
@@ -913,8 +988,10 @@ node *node_builtin(char *name, node *(*f)(node *args)) {
 }
 
 void node_build(char *name, node *(*f)(node *args)) {
-	node *s=node_id2sym(node_id(name));
-	node *b=node_builtin(name, f);
+	node *s, *b;
 
-	node_set(s, b);
+	s=node_id2sym(node_id(name));
+	b=node_builtin(name, f);
+
+	(void) node_set(s, b);
 }

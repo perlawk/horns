@@ -258,9 +258,9 @@ void test() {
 	test_code("(unless (> 1 2) 1)", node_num(1));
 
 	test_code("(set \'i 0)", node_num(0));
-
 	test_code("(while (< i 5) (set \'i (+ i 1)))", node_num(5));
-	test_code("(for (i 0 5) i)", node_num(4));
+
+	test_code("(for (j 0 5) j)", node_num(4));
 
 	test_code("(block (+ 2 2) (- 4 1) (* 1 2) (/ 5 5))", node_num(1));
 	test_code("(let (\'y 3) (+ y 2))", node_num(5));
