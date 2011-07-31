@@ -2,7 +2,7 @@ Core:
 +Lambda
 +Test on Mac/Win/Lin
 +Create 32/64 bit versions
--Garbage collection
++Garbage collection
 
 Meta:
 -Code cleanup

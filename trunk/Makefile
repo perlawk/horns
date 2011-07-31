@@ -8,13 +8,13 @@ else
 	OUT=./horns
 endif
 
-default: horns test
+all: horns test
 
 lex.yy.c: horns.l
 	flex -I horns.l
 
 horns: lex.yy.c node.h node.c libhorns.h libhorns.c test.h test.c parse.h parse.c main.c
-	gcc -o $(OUT) -O2 -Wall $(MACHINE) main.c parse.c lex.yy.c test.c libhorns.c node.c -lfl -lm $(READLINE)
+	gcc -o $(OUT) -O2 -Wall $(MACHINE) main.c parse.c lex.yy.c test.c libhorns.c node.c -lfl -lm $(READLINE) -lgc
 	strip $(OUT)
 
 test: horns

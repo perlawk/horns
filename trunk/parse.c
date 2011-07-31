@@ -26,7 +26,7 @@ void program() {
 	while (LOOKAHEAD != EOF_TOK && !PARSE_ERROR) {
 		e=_exp();
 		NODE_RESULT=node_copy(node_do(e));
-		node_del(e);
+		// node_del(e);
 	}
 }
 
@@ -74,7 +74,7 @@ node *sexp() {
 	match(RPAREN_TOK);
 
 	if (PARSE_ERROR) {
-		node_del(l);
+		// node_del(l);
 		return node_nil();
 	}
 

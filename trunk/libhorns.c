@@ -20,7 +20,6 @@ void horns_init() {
 	node_set(node_sym("\'PLATFORM"), node_str(PLATFORM));
 	node_set(node_sym("\'ARCH"), node_str(ARCH));
 	node_set(node_sym("\'COPYRIGHT"), node_str(COPYRIGHT));
-
 	node_build("!=", node_neq);
 	node_build("%", node_mod);
 	node_build("&", node_band);
@@ -93,7 +92,7 @@ void horns_init() {
 	node_build("sqrt", node_sqrt);
 	node_build("string", f_string);
 	node_build("time", node_time);
-	node_build("while", node_while);
+	node_build("while", node_while);	
 	node_build("|", node_bor);
 	node_build("~", node_bnot);
 }
@@ -103,9 +102,9 @@ int param_fail(char *f, node *args, int min, int max) {
 
 	if ((min > -1 && l < min) || (max > -1 && l > max)) {
 		char *msg=alloc_string(strlen(f)+48);
-		sprintf(msg, "error: %s used improperly. check reference manual.", f);
+		(void) snprintf(msg, strlen(f)+48, "error: %s used improperly. check reference manual.", f);
 		yyerror(msg);
-		free(msg);
+		// free(msg);
 		return 1;
 	}
 	else {
@@ -116,9 +115,9 @@ int param_fail(char *f, node *args, int min, int max) {
 int type_fail(char *f, node_type a, node_type b) {
 	if (a != b) {
 		char *msg=alloc_string(strlen(f)+48);
-		sprintf(msg, "error: %s used improperly. check reference manual.", f);
+		(void) snprintf(msg, strlen(f)+48, "error: %s used improperly. check reference manual.", f);
 		yyerror(msg);
-		free(msg);
+		// free(msg);
 		return 1;
 	}
 	else {
@@ -136,9 +135,9 @@ int list_type_fail(char *f, node *args, node_type t) {
 	while (temp->type != TAIL_TYPE) {
 		if (temp->first->type != t) {
 			char *msg=alloc_string(strlen(f)+48);
-			sprintf(msg, "error: %s used improperly. check reference manual.", f);
+			(void) snprintf(msg, strlen(f)+48, "error: %s used improperly. check reference manual.", f);
 			yyerror(msg);
-			free(msg);
+			// free(msg);
 			return 1;
 		}
 
@@ -894,7 +893,7 @@ node *node_print(node *args) {
 	char *buffer=alloc_string(strlen(tempString));
 
 	strcat(buffer, tempString);
-	free(tempString);
+	// free(tempString);
 
 	char *bufferSave;
 
@@ -912,9 +911,9 @@ node *node_print(node *args) {
 
 		buffer=alloc_string(strlen(bufferSave)+strlen(tempString));
 		strcat(buffer, bufferSave);
-		free(bufferSave);
+		// free(bufferSave);
 		strcat(buffer, tempString);
-		free(tempString);
+		// free(tempString);
 
 		tempNode=tempNode->rest;
 	}
@@ -977,7 +976,7 @@ node *node_join(node *p, node *e) {
 	buffer=alloc_string(strlen(tempString)+sep_len);
 
 	strcat(buffer, tempString);
-	free(tempString);
+	// free(tempString);
 
 	tempNode=p->rest;
 	if (tempNode->type != TAIL_TYPE) strcat(buffer, sep);
@@ -989,16 +988,16 @@ node *node_join(node *p, node *e) {
 
 		buffer=alloc_string(strlen(bufferSave)+strlen(tempString)+sep_len);
 		strcat(buffer, bufferSave);
-		free(bufferSave);
+		// free(bufferSave);
 		strcat(buffer, tempString);
-		free(tempString);
+		// free(tempString);
 
 		tempNode=tempNode->rest;
 		if (tempNode->type != TAIL_TYPE) strcat(buffer, sep);
 	}
 
 	node *res=node_str(buffer);
-	free(buffer);
+	// free(buffer);
 
 	return res;
 }
